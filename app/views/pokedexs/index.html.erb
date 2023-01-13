@@ -1,0 +1,32 @@
+<div class="container">
+    <h1>Pokédex</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pokedex Name</th>
+                <th>Element 1</th>
+                <th>Element 2</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @pokedexes.each do |pokedex| %>
+            <tr>
+                <td><%= pokedex.name%></td> 
+                <% if pokedex.element_1 == nil %>
+                    <td>-</td>
+                <% else %>
+                    <td><%= pokedex.element_1%></td>
+
+                <% end %>
+                <% if pokedex.element_2 == nil %>
+                    <td>-</td>
+                <% else %>
+                    <td><%= pokedex.element_2%></td>
+                <% end %>
+                <td><%= link_to 'Show', pokedex %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

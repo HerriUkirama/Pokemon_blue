@@ -1,0 +1,84 @@
+<div class="container">
+    <h1 class="page-title">Pokedex Details</h1>
+    <div class="flex pokemon-detail content-space">
+        <div class="pokemon-image pokemon-detail-items">
+            <%= image_tag @pokedex.image %>
+        </div>
+        <div class="pokemon-detail-items">
+            <h1><%= @pokedex.name%></h1>
+            <h2><%= @pokedex.element_1%></h2>
+            <% if @pokedex.element_2 !=nil %>
+                <p><%= @pokedex.element_1%></p>
+            <% end %>
+            <h2>Stats</h2>
+            <div class="stats">
+                <div class="flex justify-space-between">
+                    <p>Attack</p>
+                    <p><%= @pokedex.attack%></p>
+                </div>
+                <div class="flex justify-space-between">
+                    <p>Defence</p>
+                    <p><%= @pokedex.defence%></p>
+                </div>
+                <div class="flex justify-space-between">
+                    <p>Speed</p>
+                    <p><%= @pokedex.speed%></p>
+                </div>
+                <div class="flex justify-space-between">
+                    <p>Special</p>
+                    <p><%= @pokedex.special%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-space">
+        <h2>Initiate Skill</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Skill Name</th>
+                    <th>PP</th>
+                    <th>Power</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @skills.each_with_index do |skill, index| %>
+                    <t>
+                        <td><%= index+1 %></td>
+                        <td><%= skill.name %></td>
+                        <td><%= skill.pp %></td>
+                        <td><%= skill.power %></td>
+
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <div class="content-space">
+        <h2>Skill Information</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>level</th>
+                    <th>Skill Name</th>
+                    <th>PP</th>
+                    <th>Power</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @skills_info.each_with_index do |skill, index| %>
+                    <t>
+                        <td><%= index+1 %></td>
+                        <td><%= skill.level %></td>
+                        <td><%= skill.name %></td>
+                        <td><%= skill.pp %></td>
+                        <td><%= skill.power %></td>
+
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
