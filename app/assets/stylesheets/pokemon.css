@@ -1,3 +1,22 @@
 .pokemon-form{
     width: 30%;
 }
+
+.pokemon-image div{
+    width: 100%;
+}
+
+.pokemon-image div p{
+    width: 100%;
+}
+
+.pokemon-hp{
+    width: 100%;
+    border: 2px solid black;
+    text-align: center;
+    background-color: green;
+}
+
+.pokemon-hp-label{
+    margin-right: 5px;
+}

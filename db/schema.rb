@@ -39,8 +39,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_045818) do
   end
 
   create_table "pokemon_skills", force: :cascade do |t|
+    t.bigint "pokemon_id"
+    t.bigint "skill_id"
+    t.integer "last_pp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["pokemon_id"], name: "index_pokemon_skills_on_pokemon_id"
+    t.index ["skill_id"], name: "index_pokemon_skills_on_skill_id"
   end
 
   create_table "pokemons", force: :cascade do |t|

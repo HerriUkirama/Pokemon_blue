@@ -1,7 +1,7 @@
 .pokemon-image img{
     width: 600px;
     padding: 50px;
-    border-radius: 10%;
+    border-radius: 5%;
     border: black solid 2px;
 }
 

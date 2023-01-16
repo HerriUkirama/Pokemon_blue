@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resources :pokemons
+  resources :pokemons do
+    get "/heal", to: "pokemons#heal", on: :member
+    post "/heal", to: "pokemons#heal_for", on: :member
+    # post :heal, on: :member
+  end
+
   resources :pokedexs
+
+
 end

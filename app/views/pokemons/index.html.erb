@@ -23,12 +23,17 @@
                 <td><%= pokemon.pokedex.name%></td>
                 <td><%= pokemon.level%></td>
                 <td><%= pokemon.status%></td>
-                <td><%= link_to 'Destroy', pokemon_path(pokemon), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                    } %>
+                <td>
+                    <div>
+                        <%= link_to 'Delete', pokemon_path(pokemon), data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                        } %>
+                    </div>
+                    <div>
+                        <%= link_to 'Show', pokemon %>
+                    </div>
                 </td>
-                <td><%= link_to 'Show', pokemon %></td>
             </tr>
             <% end %>
         </tbody>
