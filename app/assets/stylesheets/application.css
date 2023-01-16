@@ -101,6 +101,10 @@ ul li a{
 .flex{
     display: flex;
 }
+.flex-col{
+    flex-direction: column;
+}
+
 .justify-space-between{
     justify-content: space-between;
 }

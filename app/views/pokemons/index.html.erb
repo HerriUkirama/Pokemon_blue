@@ -3,4 +3,35 @@
     <div>
         <%= link_to '+ Create', new_pokemon_path %>
     </div>
+    <div>
+        <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Pokedex</th>
+                <th>Level</th>
+                <th>Status</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @pokemons.each_with_index do |pokemon, index| %>
+            <tr>
+                <td><%= index+1%></td>
+                <td><%= pokemon.name%></td>
+                <td><%= pokemon.pokedex.name%></td>
+                <td><%= pokemon.level%></td>
+                <td><%= pokemon.status%></td>
+                <td><%= link_to 'Destroy', pokemon_path(pokemon), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                    } %>
+                </td>
+                <td><%= link_to 'Show', pokemon %></td>
+            </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
 </div>

@@ -25,7 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_045818) do
 
   create_table "pokedexes", force: :cascade do |t|
     t.string "name"
-    t.integer "hp"
+    t.integer "max_hp"
+    t.integer "max_exp"
     t.integer "attack"
     t.integer "defence"
     t.integer "speed"
@@ -46,15 +47,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_045818) do
     t.bigint "pokedex_id"
     t.string "name"
     t.integer "pokemon_hp"
-    t.integer "max_hp"
+    t.integer "pokemon_max_hp"
     t.integer "pokemon_attack"
     t.integer "pokemon_defence"
     t.integer "pokemon_speed"
     t.integer "pokemon_special"
-    t.integer "level"
-    t.integer "max_exp"
+    t.integer "level", default: 1
+    t.integer "pokemon_max_exp"
     t.integer "pokemon_exp", default: 0
-    t.string "status", default: "free"
+    t.string "status", default: "Free"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pokedex_id"], name: "index_pokemons_on_pokedex_id"

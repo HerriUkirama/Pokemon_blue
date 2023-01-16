@@ -2,7 +2,8 @@ class CreatePokedexes < ActiveRecord::Migration[7.0]
   def change
     create_table :pokedexes do |t|
       t.string :name
-      t.integer :hp
+      t.integer :max_hp
+      t.integer :max_exp
       t.integer :attack
       t.integer :defence
       t.integer :speed

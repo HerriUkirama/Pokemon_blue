@@ -10,7 +10,8 @@
 Pokedex.destroy_all
 Pokedex.create!([{
     name: "Charmander",
-    hp: 39,
+    max_hp: 39,
+    max_exp: 100,
     attack: 52,
     defence: 43,
     speed: 65,
@@ -21,7 +22,8 @@ Pokedex.create!([{
 },
 {
     name: "Bulbasaur",
-    hp: 45,
+    max_hp: 45,
+    max_exp: 100,
     attack: 49,
     defence: 49,
     speed: 45,
@@ -32,7 +34,8 @@ Pokedex.create!([{
 },
 {
     name: "Squirtle",
-    hp: 44,
+    max_hp: 44,
+    max_exp: 100,
     attack: 48,
     defence: 65,
     speed: 43,
@@ -43,7 +46,8 @@ Pokedex.create!([{
 },
 {
     name: "Pidgey",
-    hp: 40,
+    max_hp: 40,
+    max_exp: 100,
     attack: 45,
     defence: 40,
     speed: 56,
