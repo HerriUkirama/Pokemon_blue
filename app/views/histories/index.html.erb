@@ -1,0 +1,37 @@
+<div class="container">
+    <h1 class="page-title">History</h1>
+    <div>
+        <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Pokemon I</th>
+                <th>Pokemon II</th>
+                <th>Winner</th>
+                <th>Battle Date</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @histories.each_with_index do |history, index| %>
+            <tr>
+                <td><%= index+1%></td>
+                <td><%= history.pokemon_i.name%></td>
+                <td><%= history.pokemon_ii.name%></td>
+                <% if history.winner == nil %>
+                    <td>-</td>
+                <% else %>
+                    <td><%= history.winner.name%></td>
+                <% end %>
+                <td><%= history.battle_date%></td>
+                <td>
+                    <div>
+                        <%= link_to 'Show', history_path(history) %>
+                    </div>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
+</div>

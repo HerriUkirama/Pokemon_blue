@@ -5,12 +5,16 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :pokemons do
-    get "/heal", to: "pokemons#heal", on: :member
-    post "/heal", to: "pokemons#heal_for", on: :member
-    # post :heal, on: :member
+    post :heal, on: :member
   end
 
   resources :pokedexs
+
+  resources :battles do
+    post :attack, on: :member
+  end
+  
+  resources :histories
 
 
 end

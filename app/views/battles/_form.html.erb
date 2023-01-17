@@ -1,0 +1,35 @@
+<form  accept-charset="UTF-8" action="/battles" method="post">
+    <div class="flex justify-space-between my-5">
+        <div>
+            <h1>Pokemon I</h1>
+            <div class="flex flex-col">
+                <label for="pokemon_i_id">Select Pokemon</label>
+                <select name="battle[pokemon_i_id]" id="battle_pokemon_i_id">
+                    <option value="Select Pokemon"> Select Pokemon</option>
+                    <% pokemons.each do |pokemon| %>
+                    <option value="<%= pokemon.id %>"><%= pokemon.name%></option>
+                    <% end %>
+                </select>
+            </div>
+        </div>
+        
+        <div>
+            VS
+        </div>
+        
+        <div>
+            <h1>Pokemon II</h1>
+            <div class="flex flex-col">
+                <label for="pokemon_ii_id">Select Pokemon</label>
+                <select name="battle[pokemon_ii_id]" id="battle_pokemon_ii_id">
+                    <option value="Select Pokemon"> Select Pokemon</option>
+                    <% pokemons.each do |pokemon| %>
+                    <option value="<%= pokemon.id %>"><%= pokemon.name%></option>
+                    <% end %>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <input type="submit" value="Create">
+</form>

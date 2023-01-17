@@ -1,0 +1,29 @@
+<div class="container">
+    <h1 class="page-title">History Detail</h1>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Attacker</th>
+                    <th>Message</th>
+                    <th>Demage</th>
+                    <th>Enemy Hp</th>
+                    <th>Battle Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @histories.each_with_index do |history, index| %>
+                <tr>
+                    <td><%= index+1%></td>
+                    <td><%= history.pokemon.name%></td>
+                    <td><%= history.message%></td>
+                    <td><%= history.damage%></td>
+                    <td><%= history.enemy_hp%></td>
+                    <td><%= history.battle.battle_date%></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

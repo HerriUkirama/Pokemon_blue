@@ -47,48 +47,35 @@ class PokemonsController < ApplicationController
         end
     end
 
-    def pokemon_params
-        params.require(:pokemon).permit(:name, :pokedex_id)
-    end
-
+    
     def destroy
         @pokemon = Pokemon.find(params[:id])
-
+        
         @pokemon.destroy
-
+        
         redirect_to pokemons_path
     end
     
     def heal
-        puts "masok sini bwang"
-
-        # redirect_to pokemons_path
-        # @pokemon = Pokemon.find(params[:id])
-        # @pokemon_skill = @pokemon.pokemon_skills.first
-
-        # @pokemon_skill.skill_id = 6
+        @pokemon = Pokemon.find(params[:id])
+        @pokemon_skills = @pokemon.pokemon_skills
         
-        # if @pokemon_skill.save
-        #     redirect_to pokemons_path
-        # else
-        #     render :new, status: :unprocessable_entity
-        # end
-    end
-    def heal_for
-        puts "masok sini bwang 2"
-
-        redirect_to pokemons_path
-        # @pokemon = Pokemon.find(params[:id])
-        # @pokemon_skill = @pokemon.pokemon_skills.first
-
-        # @pokemon_skill.skill_id = 6
+        @pokemon.pokemon_hp = @pokemon.pokemon_max_hp
+        @pokemon.save
         
-        # if @pokemon_skill.save
-        #     redirect_to pokemons_path
-        # else
-        #     render :new, status: :unprocessable_entity
-        # end
+        @pokemon_skills.each do |pokemon_skill|
+            puts pokemon_skill.last_pp
+            puts pokemon_skill.skill.pp
+            pokemon_skill.last_pp = pokemon_skill.skill.pp
+            pokemon_skill.save
+        end
+        
+        redirect_to pokemon_path
+        
     end
     
+    def pokemon_params
+        params.require(:pokemon).permit(:name, :pokedex_id)
+    end
     
 end

@@ -74,6 +74,8 @@
     </div>
     <div class="flex">
         
-        <button><%= link_to 'Heal', heal_pokemon_path(@pokemon), method: :post %></button>
+        <button><%= link_to 'Heal', heal_pokemon_path(@pokemon),
+            data: { turbo_method: :post, turbo_confirm: "Areu sure about that?"}
+        %></button>
     </div>
 </div>

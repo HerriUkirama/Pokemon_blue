@@ -122,3 +122,7 @@ InitiateSkill.create!([{
 ])
 
 p "Created #{InitiateSkill.count} InitiateSkill"
+
+# Battle.destroy_all
+
+# Pokemon.destroy_all

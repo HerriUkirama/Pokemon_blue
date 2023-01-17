@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_13_045818) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "battle_details", force: :cascade do |t|
+    t.bigint "battle_id"
+    t.bigint "pokemon_id"
+    t.string "message"
+    t.integer "damage"
+    t.integer "enemy_hp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battle_details_on_battle_id"
+    t.index ["pokemon_id"], name: "index_battle_details_on_pokemon_id"
+  end
+
+  create_table "battles", force: :cascade do |t|
+    t.bigint "pokemon_i_id", null: false
+    t.bigint "pokemon_ii_id", null: false
+    t.bigint "winner_id"
+    t.bigint "current_attacker_id"
+    t.datetime "battle_date"
+    t.string "status", default: "In Battle"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["current_attacker_id"], name: "index_battles_on_current_attacker_id"
+    t.index ["pokemon_i_id"], name: "index_battles_on_pokemon_i_id"
+    t.index ["pokemon_ii_id"], name: "index_battles_on_pokemon_ii_id"
+    t.index ["winner_id"], name: "index_battles_on_winner_id"
+  end
 
   create_table "initiate_skills", force: :cascade do |t|
     t.bigint "pokedex_id"
@@ -76,4 +103,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_045818) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "battles", "pokemons", column: "current_attacker_id"
+  add_foreign_key "battles", "pokemons", column: "pokemon_i_id"
+  add_foreign_key "battles", "pokemons", column: "pokemon_ii_id"
+  add_foreign_key "battles", "pokemons", column: "winner_id"
 end
