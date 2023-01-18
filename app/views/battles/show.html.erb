@@ -24,33 +24,40 @@
                     </div>
                 </div>
             </div>
-            <div class="content-space">
-                <h2>Skill</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Skill Name</th>
-                            <th>PP</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @pokemon_i_skills.each_with_index do |pokemon_i_skill, index| %>
-                            <t>
-                                <td><%= index+1 %></td>
-                                <td><%= pokemon_i_skill.skill.name %></td>
-                                <td><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
-                                <td><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
+            <% if @battle.status != "End" %>
+                <% if @battle.current_attacker_id == @pokemon_i.id %>
+                <div class="content-space">
+                    <h2>Skill</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Skill Name</th>
+                                <th>PP</th>
+                                <th></th>
                             </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <% @pokemon_i_skills.each_with_index do |pokemon_i_skill, index| %>
+                                <t>
+                                    <td><%= index+1 %></td>
+                                    <td><%= pokemon_i_skill.skill.name %></td>
+                                    <td><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
+                                    <td><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+                <% end %>
+            <% end %>
         </div>
         <div class="flex justify-center flex-col">
                 <h1 class="text-center">V/S</h1>    
                 <h3>Message</h3>
+                <% if @battle.status == "End" %>
+                    <%= link_to 'Exit', battles_path %>
+                <% end %>
         </div>
         <div>
             <h1><%= @battle.pokemon_ii.name%></h1>
@@ -75,29 +82,33 @@
                     </div>
                 </div>
             </div>
-            <div class="content-space">
-                <h2>Skill</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Skill Name</th>
-                            <th>PP</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @pokemon_ii_skills.each_with_index do |pokemon_ii_skill, index| %>
-                            <t>
-                                <td><%= index+1 %></td>
-                                <td><%= pokemon_ii_skill.skill.name %></td>
-                                <td><%= pokemon_ii_skill.last_pp%> / <%= pokemon_ii_skill.skill.pp %></td>
-                                <td><%= link_to 'Attack', attack_battle_path(@battle), ethod: :post %></td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
+            <% if @battle.status != "End" %>
+                <% if @battle.current_attacker_id == @pokemon_ii.id %>
+                    <div class="content-space">
+                        <h2>Skill</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Skill Name</th>
+                                    <th>PP</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @pokemon_ii_skills.each_with_index do |pokemon_ii_skill, index| %>
+                                    <t>
+                                        <td><%= index+1 %></td>
+                                        <td><%= pokemon_ii_skill.skill.name %></td>
+                                        <td><%= pokemon_ii_skill.last_pp%> / <%= pokemon_ii_skill.skill.pp %></td>
+                                        <td><%= render 'attack2', pokemon_ii_skill: pokemon_ii_skill%></td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>            
+                <% end %>
+            <% end %>
         </div>
     </div>
 </div>
