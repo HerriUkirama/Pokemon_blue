@@ -38,7 +38,9 @@ class PokemonsController < ApplicationController
                 @pokemon_skill.skill_id = skill.id
                 @pokemon_skill.last_pp = skill.pp
 
-                @pokemon_skill.save
+                if @pokemon_skill.save
+                    puts "skill berhasil di tambah"
+                end
             end
             
             redirect_to pokemons_path
@@ -61,6 +63,7 @@ class PokemonsController < ApplicationController
         @pokemon_skills = @pokemon.pokemon_skills
         
         @pokemon.pokemon_hp = @pokemon.pokemon_max_hp
+        @pokemon.status = "Free"
         @pokemon.save
         
         @pokemon_skills.each do |pokemon_skill|

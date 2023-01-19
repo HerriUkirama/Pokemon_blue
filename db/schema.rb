@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
   create_table "battle_details", force: :cascade do |t|
     t.bigint "battle_id"
     t.bigint "pokemon_id"
+    t.bigint "skill_id"
     t.string "message"
     t.integer "damage"
     t.integer "enemy_hp"
@@ -24,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.datetime "updated_at", null: false
     t.index ["battle_id"], name: "index_battle_details_on_battle_id"
     t.index ["pokemon_id"], name: "index_battle_details_on_pokemon_id"
+    t.index ["skill_id"], name: "index_battle_details_on_skill_id"
   end
 
   create_table "battles", force: :cascade do |t|
@@ -31,13 +33,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.bigint "pokemon_ii_id", null: false
     t.bigint "winner_id"
     t.bigint "current_attacker_id"
+    t.boolean "level_up", default: false
+    t.bigint "pokemon_level_up_id"
+    t.boolean "get_new_skill", default: false
+    t.bigint "pokemon_get_new_skill_id"
+    t.boolean "skills_slot_full", default: false
+    t.bigint "skill_id"
+    t.boolean "game_over", default: false
     t.datetime "battle_date"
     t.string "status", default: "In Battle"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["current_attacker_id"], name: "index_battles_on_current_attacker_id"
+    t.index ["pokemon_get_new_skill_id"], name: "index_battles_on_pokemon_get_new_skill_id"
     t.index ["pokemon_i_id"], name: "index_battles_on_pokemon_i_id"
     t.index ["pokemon_ii_id"], name: "index_battles_on_pokemon_ii_id"
+    t.index ["pokemon_level_up_id"], name: "index_battles_on_pokemon_level_up_id"
+    t.index ["skill_id"], name: "index_battles_on_skill_id"
     t.index ["winner_id"], name: "index_battles_on_winner_id"
   end
 
@@ -104,7 +116,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
   end
 
   add_foreign_key "battles", "pokemons", column: "current_attacker_id"
+  add_foreign_key "battles", "pokemons", column: "pokemon_get_new_skill_id"
   add_foreign_key "battles", "pokemons", column: "pokemon_i_id"
   add_foreign_key "battles", "pokemons", column: "pokemon_ii_id"
+  add_foreign_key "battles", "pokemons", column: "pokemon_level_up_id"
   add_foreign_key "battles", "pokemons", column: "winner_id"
 end

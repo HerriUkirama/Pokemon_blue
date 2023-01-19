@@ -50,13 +50,45 @@
                     </table>
                 </div>
                 <% end %>
+            <% elsif  @battle.status == "End" && @battle.winner_id == @battle.pokemon_i_id %>
+                <div>
+                    <div class="flex mb-5">
+                        <p class="width-fit pokemon-exp-label">exp: 
+                        </p>    
+                        <p class="pokemon-exp">
+                            <%= @pokemon_i.pokemon_exp%> / <%= @pokemon_i.pokemon_max_exp%>
+                        </p>
+                    </div>
+                    <h2>Stats</h2>
+                    <div class="stats">
+                        <div class="flex justify-space-between">
+                            <p>Attack</p>
+                            <p><%= @battle.pokemon_i.pokemon_attack%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Defence</p>
+                            <p><%= @battle.pokemon_i.pokemon_defence%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Speed</p>
+                            <p><%= @battle.pokemon_i.pokemon_speed%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Special</p>
+                            <p><%= @battle.pokemon_i.pokemon_special%></p>
+                        </div>
+                    </div>
+                </div>
             <% end %>
         </div>
         <div class="flex justify-center flex-col">
                 <h1 class="text-center">V/S</h1>    
-                <h3>Message</h3>
                 <% if @battle.status == "End" %>
+                    <h3>Game Over</h3>
+                    <h3><%= @battle.winner.name%> Win</h3>
                     <%= link_to 'Exit', battles_path %>
+                <% else %>
+                    <h3>Message</h3>
                 <% end %>
         </div>
         <div>
@@ -108,6 +140,35 @@
                         </table>
                     </div>            
                 <% end %>
+            <% elsif  @battle.status == "End" && @battle.winner_id == @battle.pokemon_ii_id %>
+                <div>
+                    <div class="flex mb-5">
+                        <p class="width-fit pokemon-exp-label">exp: 
+                        </p>    
+                        <p class="pokemon-exp">
+                            <%= @pokemon_ii.pokemon_exp%> / <%= @pokemon_ii.pokemon_max_exp%>
+                        </p>
+                    </div>
+                    <h2>Stats</h2>
+                    <div class="stats">
+                        <div class="flex justify-space-between">
+                            <p>Attack</p>
+                            <p><%= @battle.pokemon_ii.pokemon_attack%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Defence</p>
+                            <p><%= @battle.pokemon_ii.pokemon_defence%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Speed</p>
+                            <p><%= @battle.pokemon_ii.pokemon_speed%></p>
+                        </div>
+                        <div class="flex justify-space-between">
+                            <p>Special</p>
+                            <p><%= @battle.pokemon_ii.pokemon_special%></p>
+                        </div>
+                    </div>
+                </div>
             <% end %>
         </div>
     </div>

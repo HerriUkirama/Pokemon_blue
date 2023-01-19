@@ -34,11 +34,9 @@
                         turbo_confirm: "Are you sure?"
                         } %>
                     </div>
-                    <% if battle.status != "End" %>
-                        <div>
-                            <%= link_to 'Show', battle %>
-                        </div>
-                    <% end %>
+                    <div>
+                        <%= link_to 'Show', battle %>
+                    </div>
                 </td>
             </tr>
             <% end %>

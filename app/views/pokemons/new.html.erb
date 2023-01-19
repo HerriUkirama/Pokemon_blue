@@ -1,5 +1,17 @@
 <div class="container">
     <h1 class="page-title">Create Pokemon</h1>
 
+    <% if @pokemon.errors.any? %>
+        <div id="error_explanation" class ="field_with_errors">
+            <h2><%= pluralize(@pokemon.errors.count, "error") %> prohibited this pokemon from being saved:</h2>
+
+            <ul>
+            <% @pokemon.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
     <%= render 'form',  pokemon: @pokemon, pokedexes: @pokedexes%>
-</div>
+</div>  

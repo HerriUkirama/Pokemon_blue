@@ -23,7 +23,10 @@
             </div>
         </div>
         <div class="pokemon-detail-items">
-            <h1><%= @pokemon.name%></h1>
+            <div class="flex justify-space-between">
+                <h1><%= @pokemon.name%></h1>
+                <h2><%= @pokemon.status%></h2>
+            </div>
             <h2><%= @pokedex.name%></h2>
             <% if @pokedex.element_2 !=nil %>
                 <p><%= @pokedex.element_1%></p>
@@ -73,9 +76,10 @@
         </table>
     </div>
     <div class="flex">
-        
-        <button><%= link_to 'Heal', heal_pokemon_path(@pokemon),
-            data: { turbo_method: :post, turbo_confirm: "Areu sure about that?"}
-        %></button>
+        <% if @pokemon.status !="In Battle" %>
+            <button><%= link_to 'Heal', heal_pokemon_path(@pokemon),
+                data: { turbo_method: :post, turbo_confirm: "Areu sure about that?"}
+            %></button>
+        <% end %>
     </div>
 </div>

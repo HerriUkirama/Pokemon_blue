@@ -6,7 +6,7 @@
                 <label for="pokemon_i_id">Select Pokemon</label>
                 <select name="battle[pokemon_i_id]" id="battle_pokemon_i_id">
                     <option value="Select Pokemon"> Select Pokemon</option>
-                    <% pokemons.each do |pokemon| %>
+                    <% @pokemons.each do |pokemon| %>
                     <option value="<%= pokemon.id %>"><%= pokemon.name%></option>
                     <% end %>
                 </select>
@@ -14,7 +14,7 @@
         </div>
         
         <div>
-            VS
+            <h1 class="text-center">V/S</h1>
         </div>
         
         <div>
@@ -23,7 +23,7 @@
                 <label for="pokemon_ii_id">Select Pokemon</label>
                 <select name="battle[pokemon_ii_id]" id="battle_pokemon_ii_id">
                     <option value="Select Pokemon"> Select Pokemon</option>
-                    <% pokemons.each do |pokemon| %>
+                    <% @pokemons.each do |pokemon| %>
                     <option value="<%= pokemon.id %>"><%= pokemon.name%></option>
                     <% end %>
                 </select>
@@ -31,5 +31,7 @@
         </div>
     </div>
 
-    <input type="submit" value="Create">
+    <div class="flex justify-center">
+        <input type="submit" value="Create">
+    </div>
 </form>

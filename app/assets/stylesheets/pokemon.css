@@ -16,7 +16,16 @@
     text-align: center;
     background-color: green;
 }
+.pokemon-exp{
+    width: 100%;
+    border: 2px solid black;
+    text-align: center;
+    background-color: cyan;
+}
 
 .pokemon-hp-label{
+    margin-right: 5px;
+}
+.pokemon-exp-label{
     margin-right: 5px;
 }

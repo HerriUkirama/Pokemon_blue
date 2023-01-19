@@ -195,3 +195,10 @@ table th, table td{
     justify-content: center;
 }
 
+.field_with_errors {
+    padding: 2px;
+    /* background-color: red; */
+    color: red;
+    display: table;
+  }
+  
