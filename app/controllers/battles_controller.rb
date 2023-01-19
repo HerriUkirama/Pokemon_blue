@@ -121,7 +121,7 @@ class BattlesController < ApplicationController
             end
 
             exp_winner = @@pokemon_attack.pokemon_exp + $exp
-            if exp_winner >= @@pokemon_attack.pokemon_max_hp
+            if exp_winner >= @@pokemon_attack.pokemon_max_exp
                 # Level_up state
                 @battle.level_up = true
                 @battle.pokemon_level_up_id = @@pokemon_attack.id
@@ -129,7 +129,9 @@ class BattlesController < ApplicationController
                     level_up()
                 end
                 # End
-                
+            elsif exp_winner < @@pokemon_attack.pokemon_max_exp
+                @@pokemon_attack.pokemon_exp = exp_winner
+                @@pokemon_attack.save   
             end
 
             @battle.save
