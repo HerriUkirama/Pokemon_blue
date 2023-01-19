@@ -102,17 +102,6 @@ class BattlesController < ApplicationController
         if hp_check or pp_check
             @battle.winner_id = @@pokemon_attack.id
             @battle.status = "End"
-
-            exp_winner = @@pokemon_attack.pokemon_hp + $exp
-            if exp_winner >= @@pokemon_attack.pokemon_max_hp
-                # Level_up state
-                @battle.level_up = true
-                @battle.pokemon_level_up_id = @@pokemon_attack.id
-                # End
-                
-            end
-
-            @battle.save
             
             attacker_pp = @@pokemon_attack.pokemon_skills.all? {|pokemon_skill| pokemon_skill.last_pp == 0}
 
@@ -130,19 +119,22 @@ class BattlesController < ApplicationController
                 @@pokemon_attack.status = "No PP"
                 @@pokemon_attack.save
             end
+
+            exp_winner = @@pokemon_attack.pokemon_exp + $exp
+            if exp_winner >= @@pokemon_attack.pokemon_max_hp
+                # Level_up state
+                @battle.level_up = true
+                @battle.pokemon_level_up_id = @@pokemon_attack.id
+                if @battle.level_up
+                    level_up()
+                end
+                # End
+                
+            end
+
+            @battle.save
         end
         # End
-
-        if @battle.level_up
-            @@pokemon_attack.level = @@pokemon_attack.level + 1
-            @@pokemon_attack.pokemon_attack = @@pokemon_attack.pokemon_attack + rand(5..10)
-            @@pokemon_attack.pokemon_defence = @@pokemon_attack.pokemon_defence + rand(5..10)
-            @@pokemon_attack.pokemon_speed = @@pokemon_attack.pokemon_speed + rand(5..10)
-            @@pokemon_attack.pokemon_special = @@pokemon_attack.pokemon_special + rand(5..10)
-            @@pokemon_attack.pokemon_max_hp = @@pokemon_attack.pokemon_max_hp + rand(5..10)
-            @@pokemon_attack.pokemon_max_exp = @@pokemon_attack.pokemon_max_exp + rand(5..10)
-            @@pokemon_attack.save
-        end
 
         # Change Attacker
         @battle.current_attacker_id = @@pokemon_got_damage.id
@@ -151,12 +143,28 @@ class BattlesController < ApplicationController
         redirect_to battle_path
     end
 
-    # def level_up
-    #     pokemon_level_before = @@pokemon_attack.level
-    #     max_exp = $max_exp[pokemon_level_before]
-    #     iteration = 0
+    def level_up
+        pokemon_level = @@pokemon_attack.level
+        max_exp = $max_exp[pokemon_level]
+        curr_exp = @@pokemon_attack.pokemon_exp + $exp
+        # iteration = 0
 
-    # end
+        while curr_exp > max_exp
+            @@pokemon_attack.level = @@pokemon_attack.level + 1
+            @@pokemon_attack.pokemon_attack = @@pokemon_attack.pokemon_attack + rand(5..10)
+            @@pokemon_attack.pokemon_defence = @@pokemon_attack.pokemon_defence + rand(5..10)
+            @@pokemon_attack.pokemon_speed = @@pokemon_attack.pokemon_speed + rand(5..10)
+            @@pokemon_attack.pokemon_special = @@pokemon_attack.pokemon_special + rand(5..10)
+            @@pokemon_attack.pokemon_max_hp = @@pokemon_attack.pokemon_max_hp + rand(5..10)
+            @@pokemon_attack.pokemon_exp = curr_exp - max_exp
+            @@pokemon_attack.pokemon_max_exp = $max_exp[pokemon_level+1]
+            @@pokemon_attack.save
+
+            curr_exp -= max_exp
+            pokemon_level += 1
+            max_exp = $max_exp[pokemon_level]
+        end
+    end
     
     
     def damage_calculation
