@@ -21,7 +21,8 @@ class BattlesController < ApplicationController
 
     def new
         @battle  = Battle.new
-        @pokemons = Pokemon.all
+        @pokemons = Pokemon.all 
+        $skills = Array.new
     end
 
     def show
@@ -31,6 +32,8 @@ class BattlesController < ApplicationController
         @pokemon_ii = Pokemon.find(@battle.pokemon_ii_id)
         @pokemon_i_skills = @pokemon_i.pokemon_skills
         @pokemon_ii_skills = @pokemon_ii.pokemon_skills
+
+        # puts "ini tambah skill", $skills
     end
     
     
@@ -72,6 +75,8 @@ class BattlesController < ApplicationController
     def attack
         @battle_detail = BattleDetail.new(battle_detail_params)
         
+        # puts "battle detail",  @battle_detail
+
         @battle = Battle.find(@battle_detail.battle_id)
         
         @@pokemon_attack = Pokemon.find(params[:pokemon_attack_id])
@@ -122,17 +127,49 @@ class BattlesController < ApplicationController
 
             exp_winner = @@pokemon_attack.pokemon_exp + $exp
             if exp_winner >= @@pokemon_attack.pokemon_max_exp
+                # puts "masuk sini kk"
                 # Level_up state
                 @battle.level_up = true
                 @battle.pokemon_level_up_id = @@pokemon_attack.id
+                @battle.save
                 if @battle.level_up
+                    # puts "level up"
                     level_up()
+                end
+
+                if $skills.length != 0
+                    z = 3
+                    
+                    while @battle.winner.pokemon_skills.count < 4
+                        skill = $skills.shift
+
+                        @new_skill = Skill.find(skill)
+                        @pokemon_skill = PokemonSkill.new
+                        @pokemon_skill.pokemon_id = @battle.winner_id
+                        @pokemon_skill.skill_id = skill
+                        @pokemon_skill.last_pp = @new_skill.pp
+                        @pokemon_skill.save
+
+                    end 
+                    
+                    if $skills.length != 0
+
+                        @battle.skill_id = $skills.shift
+                        @battle.pokemon_get_new_skill_id = @@pokemon_attack.id
+                        # @battle.change_skill = true
+                        @battle.get_new_skill= true
+                        @battle.skills_slot_full = true
+                        # @battle.save
+
+                    end
                 end
                 # End
             elsif exp_winner < @@pokemon_attack.pokemon_max_exp
+                # puts "mask sini kakak"
                 @@pokemon_attack.pokemon_exp = exp_winner
                 @@pokemon_attack.save   
             end
+            # puts "ini di luar"
 
             @battle.save
         end
@@ -149,15 +186,29 @@ class BattlesController < ApplicationController
         pokemon_level = @@pokemon_attack.level
         max_exp = $max_exp[pokemon_level]
         curr_exp = @@pokemon_attack.pokemon_exp + $exp
+        # puts "curr exp : ", curr_exp
         # iteration = 0
 
-        while curr_exp > max_exp
+        while curr_exp >= max_exp
             @@pokemon_attack.level = @@pokemon_attack.level + 1
+
+            new_skill = Skill.where("level = ?  and  element = ? ", @@pokemon_attack.level,@@pokemon_attack.pokedex.element_1 )
+
+            if new_skill.length != 0
+                # puts "nambah skill"
+                for x  in 0..(new_skill.length-1)
+                    $skills.push(new_skill[x].id)
+                end
+            end
             @@pokemon_attack.pokemon_attack = @@pokemon_attack.pokemon_attack + rand(5..10)
             @@pokemon_attack.pokemon_defence = @@pokemon_attack.pokemon_defence + rand(5..10)
             @@pokemon_attack.pokemon_speed = @@pokemon_attack.pokemon_speed + rand(5..10)
             @@pokemon_attack.pokemon_special = @@pokemon_attack.pokemon_special + rand(5..10)
-            @@pokemon_attack.pokemon_max_hp = @@pokemon_attack.pokemon_max_hp + rand(5..10)
+
+            hp_rand = rand(5..10)
+
+            @@pokemon_attack.pokemon_max_hp = @@pokemon_attack.pokemon_max_hp + hp_rand
+            @@pokemon_attack.pokemon_hp = @@pokemon_attack.pokemon_hp + hp_rand
             @@pokemon_attack.pokemon_exp = curr_exp - max_exp
             @@pokemon_attack.pokemon_max_exp = $max_exp[pokemon_level+1]
             @@pokemon_attack.save
@@ -167,11 +218,113 @@ class BattlesController < ApplicationController
             max_exp = $max_exp[pokemon_level]
         end
     end
+
+    def change_skill_state
+        # puts "ganti babang"
+        @battle = Battle.find(params[:id])
+        @battle.change_skill = true
+        @battle.save
+        # puts @battle.id
+        redirect_to battle_path
+    end
+    
+    def dont_change_or_add_skill_state
+        # puts "gak ganti babang"
+        @battle = Battle.find(params[:id])
+        if $skills.length != 0
+            skill = $skills.shift
+            # puts skill
+            @battle.skill_id = skill
+            @battle.pokemon_get_new_skill_id = params[:pokemon_id]
+            @battle.change_skill = false
+            @battle.get_new_skill= true
+
+            if @@pokemon_attack.pokemon_skills.count >= 4
+                @battle.skills_slot_full = true
+            end
+        else
+            @battle.get_new_skill = false
+            @battle.change_skill = false
+            @battle.skill_id = nil
+            @battle.game_over = true    
+        end
+
+        @battle.save
+        redirect_to battle_path
+    end
+    
+    def change_skill
+        # puts "masuk ke change skill"
+        # puts params[:pokemon_id]
+        # puts params[:pokemon_skill_id]
+
+        @battle = Battle.find(params[:battle_id])
+        @pokemon_skill = PokemonSkill.find(params[:pokemon_skill_id])
+
+        @pokemon_skill.skill_id = @battle.skill_id
+        @pokemon_skill.last_pp = @battle.skill.pp
+        @pokemon_skill.save
+
+        if $skills.length != 0
+            skill = $skills.shift
+            # puts skill
+            @battle.skill_id = skill
+            @battle.pokemon_get_new_skill_id = params[:pokemon_id]
+            @battle.change_skill = false
+            @battle.get_new_skill= true
+
+            if @@pokemon_attack.pokemon_skills.count >= 4
+                @battle.skills_slot_full = true
+            end
+        else
+            @battle.get_new_skill = false
+            @battle.change_skill = false
+            @battle.skill_id = nil
+            @battle.game_over = true    
+        end
+
+        @battle.save
+
+        redirect_to  battle_path
+    end
+    
+    def add_skill
+        @battle = Battle.find(params[:id])
+        @pokemon_skill = PokemonSkill.new
+        @pokemon_skill.pokemon_id = @battle.winner_id
+        @pokemon_skill.skill_id = @battle.skill_id
+        @pokemon_skill.last_pp = @battle.skill.pp
+        @pokemon_skill.save
+
+        if $skills.length != 0
+            skill = $skills.shift
+            # puts skill
+            @battle.skill_id = skill
+            @battle.pokemon_get_new_skill_id = params[:pokemon_id]
+            @battle.change_skill = false
+            @battle.get_new_skill= true
+
+            if @battle.winner.pokemon_skills.count >= 4
+                @battle.skills_slot_full = true
+            end
+        else
+            @battle.get_new_skill = false
+            @battle.change_skill = false
+            @battle.skill_id = nil
+            @battle.game_over = true    
+        end
+
+        @battle.save
+        redirect_to battle_path
+    end
     
     
     def damage_calculation
         multipier = $element_chart[@@pokemon_attack.pokedex.element_1][@@pokemon_got_damage.pokedex.element_1]
         hasil = (@@pokemon_attack.pokemon_attack.to_f  + @@pokemon_skill.skill.power.to_f - @@pokemon_got_damage.pokemon_defence.to_f)  * multipier
+        if hasil < 0 
+            hasil = 0
+        end
         hasil.to_i
     end
     
@@ -180,14 +333,15 @@ class BattlesController < ApplicationController
     end
 
     def pp_check
-        skills = @@pokemon_got_damage.pokemon_skills.all? {|pokemon_skill| pokemon_skill.last_pp == 0}
-        skills
+        skills_pp = @@pokemon_got_damage.pokemon_skills.all? {|pokemon_skill| pokemon_skill.last_pp == 0}
+        skills_pp
     end
     
 
     def battle_params
         params.require(:battle).permit(:pokemon_i_id, :pokemon_ii_id)
     end
+
     def battle_detail_params
         params.require(:battle_detail).permit(:battle_id, :pokemon_id, :skill_id)
     end

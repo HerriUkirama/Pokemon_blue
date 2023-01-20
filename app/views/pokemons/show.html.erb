@@ -21,6 +21,13 @@
                     <h2><%= @pokedex.element_1%></h2>
                 </div>
             </div>
+            <div class="flex mb-5">
+                <p class="width-fit pokemon-exp-label">exp: 
+                </p>    
+                <p class="pokemon-exp">
+                    <%= @pokemon.pokemon_exp%> / <%= @pokemon.pokemon_max_exp%>
+                </p>
+            </div>
         </div>
         <div class="pokemon-detail-items">
             <div class="flex justify-space-between">

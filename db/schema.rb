@@ -36,9 +36,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.boolean "level_up", default: false
     t.bigint "pokemon_level_up_id"
     t.boolean "get_new_skill", default: false
+    t.boolean "change_skill", default: false
+    t.bigint "skill_id"
     t.bigint "pokemon_get_new_skill_id"
     t.boolean "skills_slot_full", default: false
-    t.bigint "skill_id"
     t.boolean "game_over", default: false
     t.datetime "battle_date"
     t.string "status", default: "In Battle"

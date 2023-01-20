@@ -76,7 +76,14 @@ Skill.create!([{
     level: 1,
 },
 {
-    name: "Fire Spin",
+    name: "Fire Spin 1",
+    element: "Fire",
+    pp: 15,
+    power: 15,
+    level: 3,
+},
+{
+    name: "Fire Spin 2",
     element: "Fire",
     pp: 15,
     power: 15,
@@ -106,15 +113,15 @@ Skill.create!([{
 {
     name: "Vine Whip",
     element: "Grass",
-    pp: 15,
-    power: 18,
+    pp: 7,
+    power: 25,
     level: 1,
 },
 {
     name: "Leech Seed",
     element: "Grass",
-    pp: 18,
-    power: 12,
+    pp: 15,
+    power: 15,
     level: 1,
 },
 {
@@ -127,8 +134,8 @@ Skill.create!([{
 {
     name: "Sleep Powder",
     element: "Grass",
-    pp: 18,
-    power: 12,
+    pp: 10,
+    power: 20,
     level: 1,
 },
 {
@@ -174,11 +181,11 @@ Skill.create!([{
     level: 1,
 },
 {
-    name: "Rain Dance",
+    name: "Rain Dance 1",
     element: "Water",
-    pp: 18,
-    power: 12,
-    level: 10,
+    pp: 5,
+    power: 20,
+    level: 3,
 },
 {
     name: "	Aqua Tail",
@@ -186,6 +193,13 @@ Skill.create!([{
     pp: 10,
     power: 20,
     level: 5,
+},
+{
+    name: "Rain Dance 2",
+    element: "Water",
+    pp: 5,
+    power: 25,
+    level: 10,
 },
 {
     name: "Hydro Pump",
@@ -260,10 +274,6 @@ InitiateSkill.create!([{
 },
 {
     pokedex_id: 2,
-    skill_id: 7,
-},
-{
-    pokedex_id: 2,
     skill_id: 8,
 },
 {
@@ -273,6 +283,10 @@ InitiateSkill.create!([{
 {
     pokedex_id: 2,
     skill_id: 10,
+},
+{
+    pokedex_id: 2,
+    skill_id: 11,
 },
 {
     pokedex_id: 3,

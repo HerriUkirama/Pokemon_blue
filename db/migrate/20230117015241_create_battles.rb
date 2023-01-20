@@ -8,9 +8,10 @@ class CreateBattles < ActiveRecord::Migration[7.0]
       t.boolean :level_up, default: false
       t.references :pokemon_level_up, null: true, foreign_key: { to_table: :pokemons }
       t.boolean :get_new_skill, default: false
+      t.boolean :change_skill, default: false
+      t.belongs_to :skill, null: true
       t.references :pokemon_get_new_skill, null: true, foreign_key: { to_table: :pokemons }
       t.boolean :skills_slot_full, default: false
-      t.belongs_to :skill, null: true
       t.boolean :game_over, default: false
       
       t.datetime :battle_date

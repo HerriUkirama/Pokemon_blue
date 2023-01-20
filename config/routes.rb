@@ -8,13 +8,18 @@ Rails.application.routes.draw do
     post :heal, on: :member
   end
 
-  resources :pokedexs
+  resources :pokedexs, only: [:index, :show]
 
   resources :battles do
     post :attack, on: :member
+    post :change_skill_state, on: :member
+    post :change_skill, on: :member
+    post :add_skill, on: :member
+    # post :dont_add_skill, on: :member
+    post :dont_change_or_add_skill_state, on: :member
   end
   
-  resources :histories
+  resources :histories, only: [:index, :show]
 
 
 end

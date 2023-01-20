@@ -6,6 +6,8 @@ class Battle < ApplicationRecord
 
     has_many :battle_details, dependent: :destroy
 
+    belongs_to :skill, optional: true
+    
     validates :pokemon_ii, comparison: { other_than: :pokemon_i, message: "Pokemon can't same"  } , on: :create
 
     validate :pokemon_not_nil_validation, on: :create
