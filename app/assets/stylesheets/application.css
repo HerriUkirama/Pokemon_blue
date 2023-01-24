@@ -23,12 +23,12 @@
     font-family: 'Catamaran', sans-serif;
 }
 
-.container{
+/* .container{
     margin: 0 auto;
     max-width: 1536px;
-    /* max-width: 1280px; */
+    max-width: 1280px;
     width: 90%;
-}
+} */
 
 header{
     background-color: gray;
@@ -71,10 +71,10 @@ ul li a{
     color: white;
 }
 
-.content{
+/* .content{
     margin-top: 100px;
-}
-
+} */
+/* 
 .flex{
     display: flex;
 }
@@ -84,12 +84,12 @@ ul li a{
 
 .justify-space-between{
     justify-content: space-between;
-}
+} */
 
-.page-title{
+/* .page-title{
     padding: 50px 0;
-}
-
+} */
+/* 
 .content-space{
     padding: 20px 0 ;
 }
@@ -109,8 +109,8 @@ table th, table td{
 
 .width-fit{
     max-width: fit-content;
-}
-
+} */
+/* 
 .m-5{
     margin: 5px;
 }
@@ -193,7 +193,7 @@ table th, table td{
 
 .justify-center{
     justify-content: center;
-}
+} */
 
 .field_with_errors {
     padding: 2px;

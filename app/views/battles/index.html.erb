@@ -1,52 +1,83 @@
-<div class="container">
-    <h1 class="page-title">Battles</h1>
-    <div class = "mb-10">
-        <%= link_to '+ Create', new_battle_path, class: "btn btn-create mb-5 p-5"%>
+<div class="container mx-auto mt-24 w-full">
+    <h1 class="text-3xl font-bold py-12">Battles</h1>
+    <div class="flex justify-end mb-2">
+        <%= link_to '+ Create', new_battle_path, class: "bg-blue-600 rounded-md box-content py-2 px-4 text-white font-semibold"%>
     </div>
-    <div>
-        <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Pokemon I</th>
-                <th>Pokemon II</th>
-                <th>Winner</th>
-                <th>Status</th>
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @battles.each_with_index do |battle, index| %>
-            <tr>
-                <td><%= index+1%></td>
+    <div class="relative overflow-x-auto shadow-md rounded-md mb-5">
+        <table class=" w-full border-separate text-sm text-left text-gray-800">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-400 ">
+                <tr>
+                    <th scope="col" class="border border-slate-300 rounded-tl-md px-6 py-3">No</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Pokemon I</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Pokemon II</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Winner</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Status</th>
+                    <th scope="col" class="border border-slate-300 rounded-tr-md px-6 py-3"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @battles.each_with_index do |battle, index| %>
+                    <% if index%2==0 %>
+                        <tr class="bg-gray-100 border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
 
-                <% if battle.pokemon_i.is_delete == true %>
-                    <td class= "background-red"><%= battle.pokemon_i.name%></td>
-                <% else %>
-                    <td><%= battle.pokemon_i.name%></td>
-                <% end %>
+                            <% if battle.pokemon_i.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_i.name%></td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= battle.pokemon_i.name%></td>
+                            <% end %>
 
-                <% if battle.pokemon_ii.is_delete == true %>
-                    <td class= "background-red"><%= battle.pokemon_ii.name%></td>
-                <% else %>
-                    <td><%= battle.pokemon_ii.name%></td>
-                <% end %>
+                            <% if battle.pokemon_ii.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_ii.name%></td>
+                            <% else %>
+                                <td class="px-6 py-4"><%= battle.pokemon_ii.name%></td>
+                            <% end %>
 
-                <% if battle.winner == nil %>
-                    <td>-</td>
-                <% else %>
-                    <td><%= battle.winner.name%></td>
+                            <% if battle.winner == nil %>
+                                <td class="px-6 py-4">-</td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= battle.winner.name%></td>
+                            <% end %>
+                            
+                            <td class="px-6 py-4"><%= battle.status%></td>
+                            <td class="px-6 py-4">
+                                <div>
+                                    <%= link_to 'Show', battle %>
+                                </div>
+                            </td>
+                        </tr>
+                    <% else %>
+                        <tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
+
+                            <% if battle.pokemon_i.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_i.name%></td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= battle.pokemon_i.name%></td>
+                            <% end %>
+
+                            <% if battle.pokemon_ii.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_ii.name%></td>
+                            <% else %>
+                                <td class="px-6 py-4"><%= battle.pokemon_ii.name%></td>
+                            <% end %>
+
+                            <% if battle.winner == nil %>
+                                <td class="px-6 py-4">-</td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= battle.winner.name%></td>
+                            <% end %>
+                            
+                            <td class="px-6 py-4"><%= battle.status%></td>
+                            <td class="px-6 py-4">
+                                <div>
+                                    <%= link_to 'Show', battle %>
+                                </div>
+                            </td>
+                        </tr>
+                    <% end %>
                 <% end %>
-                
-                <td><%= battle.status%></td>
-                <td>
-                    <div>
-                        <%= link_to 'Show', battle %>
-                    </div>
-                </td>
-            </tr>
-            <% end %>
-        </tbody>
+            </tbody>
         </table>
     </div>
 </div>
