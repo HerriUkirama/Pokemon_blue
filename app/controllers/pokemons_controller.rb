@@ -25,7 +25,7 @@ class PokemonsController < ApplicationController
         @pokemon.pokemon_attack = @pokedex.attack
         @pokemon.pokemon_defence = @pokedex.defence
         @pokemon.pokemon_speed = @pokedex.speed
-        @pokemon.pokemon_special = @pokedex.special
+        @pokemon.pokemon_special = @pokedex.special 
         @pokemon.pokemon_max_exp = @pokedex.max_exp
         @pokemon.pokemon_max_hp = @pokedex.max_hp
         @pokemon.pokemon_hp = @pokedex.max_hp
@@ -45,6 +45,9 @@ class PokemonsController < ApplicationController
             
             redirect_to pokemons_path
         else
+
+            @pokemon = Pokemon.new
+            @pokedexes = Pokedex.all
             render :new, status: :unprocessable_entity
         end
     end
@@ -52,9 +55,14 @@ class PokemonsController < ApplicationController
     
     def destroy
         @pokemon = Pokemon.find(params[:id])
+        battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", params[:id], params[:id]])
         
-        @pokemon.is_delete = true
-        @pokemon.save
+        if battles.length == 0
+            @pokemon.destroy
+        else
+            @pokemon.is_delete = true
+            @pokemon.save
+        end
         
         redirect_to pokemons_path
     end
@@ -63,18 +71,28 @@ class PokemonsController < ApplicationController
         @pokemon = Pokemon.find(params[:id])
         @pokemon_skills = @pokemon.pokemon_skills
         
-        @pokemon.pokemon_hp = @pokemon.pokemon_max_hp
-        @pokemon.status = "Free"
-        @pokemon.save
+        if @pokemon.status != "In Battle"
+            @pokemon.pokemon_hp = @pokemon.pokemon_max_hp
+            @pokemon.status = "Free"
+            @pokemon.save
+            
+            @pokemon_skills.each do |pokemon_skill|
+                puts pokemon_skill.last_pp
+                puts pokemon_skill.skill.pp
+                pokemon_skill.last_pp = pokemon_skill.skill.pp
+                pokemon_skill.save
+            end
+            
+            redirect_to pokemon_path
         
-        @pokemon_skills.each do |pokemon_skill|
-            puts pokemon_skill.last_pp
-            puts pokemon_skill.skill.pp
-            pokemon_skill.last_pp = pokemon_skill.skill.pp
-            pokemon_skill.save
+        else
+            # errors.add(@pokemon, "Pokemon Sedang dalam battle")
+            @pokemon = Pokemon.find(params[:id])
+            @pokedex = Pokedex.find(@pokemon.pokedex_id)
+            @pokemon_skills = @pokemon.pokemon_skills
+            render :show, status: :unprocessable_entity
+
         end
-        
-        redirect_to pokemon_path
         
     end
     

@@ -12,18 +12,40 @@ class Pokemon < ApplicationRecord
     has_many :battles, class_name:'Battle',  foreign_key:'current_attacker_id'
 
     validates :pokemon_hp, numericality: { greater_than_or_equal_to: 0 }
-
+    validates :name, presence: true
     validate :pokedex_not_nil_validation, on: :create
-    # validate :check_pokemon_in_battle, on: :update
+    # validate :heal_validation, on: :update
 
 
     private
+    
+    def name_and_pokedex
+        if self.name == nil && self.pokedex_id == 0
+            errors.add(:id, "Name can't nil")
+            errors.add(:id, "Please select pokemon type")
+        elsif self.name == nil
+            errors.add(:id, "Name can't nil")
+        elsif self.pokedex_id == 0
+            errors.add(:id, "Please select pokemon type")
+        end
+    end
+
     def pokedex_not_nil_validation
         puts pokedex_id
         if pokedex_id == 0
             errors.add(:pokedex_id, "must exist")
         end
     end
+
+
+    # def heal_validation
+    #     @pokemon = Pokemon.find(self.id)
+    #     battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", self.id, self.id])
+    #     battles_check = battles.any? {|battle| battle.status == "In Battle"}
+    #     if battles_check && @po
+    #         errors.add(:id, "Pokemon can't be healed because it is in battle")
+    #     end
+    # end
     
     # def destroy_battle
     #     battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", self.id, self.id])

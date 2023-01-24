@@ -19,21 +19,27 @@
             <% @battles.each_with_index do |battle, index| %>
             <tr>
                 <td><%= index+1%></td>
-                <td><%= battle.pokemon_i.name%></td>
-                <td><%= battle.pokemon_ii.name%></td>
+
+                <% if battle.pokemon_i.is_delete == true %>
+                    <td class= "background-red"><%= battle.pokemon_i.name%></td>
+                <% else %>
+                    <td><%= battle.pokemon_i.name%></td>
+                <% end %>
+
+                <% if battle.pokemon_ii.is_delete == true %>
+                    <td class= "background-red"><%= battle.pokemon_ii.name%></td>
+                <% else %>
+                    <td><%= battle.pokemon_ii.name%></td>
+                <% end %>
+
                 <% if battle.winner == nil %>
                     <td>-</td>
                 <% else %>
                     <td><%= battle.winner.name%></td>
                 <% end %>
+                
                 <td><%= battle.status%></td>
                 <td>
-                    <div>
-                        <%= link_to 'Delete', battle_path(battle), data: {
-                        turbo_method: :delete,
-                        turbo_confirm: "Are you sure?"
-                        } %>
-                    </div>
                     <div>
                         <%= link_to 'Show', battle %>
                     </div>

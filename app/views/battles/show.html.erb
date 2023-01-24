@@ -7,16 +7,22 @@
             <div class="flex justify-space-between">
                 <h1><%= @battle.pokemon_i.name%></h1>
                 <% if @battle.pokemon_i.is_delete == true %>
-                    <h1 class="text-red">Pokemon Is Delete</h1>
+                    <h1 class="text-red">Pokemon Is Deleted</h1>
                 <% end %>
             </div>
             <div class="pokemon-image pokemon-detail-items">
                 <div class="flex mb-5">
                     <p class="width-fit pokemon-hp-label">hp: 
                     </p>
-                    <p class="pokemon-hp">
-                        <%= @pokemon_i.pokemon_hp%> / <%= @pokemon_i.pokemon_max_hp%>
-                    </p>
+                    <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_ii.id %>
+                        <p class="pokemon-hp">
+                            0 / <%= @pokemon_i.pokemon_max_hp%>
+                        </p>
+                    <% else%>
+                        <p class="pokemon-hp">
+                            <%= @pokemon_i.pokemon_hp%> / <%= @pokemon_i.pokemon_max_hp%>
+                        </p>
+                    <% end %>
                 </div>
                 <div>
                     <%= image_tag @pokemon_i.pokedex.image %>
@@ -168,16 +174,22 @@
             <div class="flex justify-space-between">
                 <h1><%= @battle.pokemon_ii.name%></h1>
                 <% if @battle.pokemon_ii.is_delete == true %>
-                    <h1 class="text-red">Pokemon Is Delete</h1>
+                    <h1 class="text-red">Pokemon Is Deleted</h1>
                 <% end %>
             </div>
             <div class="pokemon-image pokemon-detail-items">
                 <div class="flex mb-5">
                     <p class="width-fit pokemon-hp-label">hp: 
                     </p>
-                    <p class="pokemon-hp">
-                        <%= @pokemon_ii.pokemon_hp%> / <%= @pokemon_ii.pokemon_max_hp%>
-                    </p>
+                    <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_i.id%>
+                        <p class="pokemon-hp">
+                            0 / <%= @pokemon_ii.pokemon_max_hp%>
+                        </p>
+                    <% elsif @battle.status != "End" && @battle.game_over ==false%>
+                        <p class="pokemon-hp">
+                            <%= @pokemon_ii.pokemon_hp%> / <%= @pokemon_ii.pokemon_max_hp%>
+                        </p>
+                    <% end %>
                 </div>
                 <div>
                     <%= image_tag @pokemon_ii.pokedex.image %>

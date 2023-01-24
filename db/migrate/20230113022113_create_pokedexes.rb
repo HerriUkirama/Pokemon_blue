@@ -8,6 +8,7 @@ class CreatePokedexes < ActiveRecord::Migration[7.0]
       t.integer :defence
       t.integer :speed
       t.integer :special
+      t.integer :level, default: 1
       t.string :element_1
       t.string :element_2
       t.string :image

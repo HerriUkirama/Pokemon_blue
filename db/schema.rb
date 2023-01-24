@@ -71,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.integer "defence"
     t.integer "speed"
     t.integer "special"
+    t.integer "level", default: 1
     t.string "element_1"
     t.string "element_2"
     t.string "image"

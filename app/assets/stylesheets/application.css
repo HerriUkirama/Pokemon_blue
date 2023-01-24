@@ -204,3 +204,6 @@ table th, table td{
 .text-red{
     color: red;
 }
+.background-red{
+    background-color: red;
+}

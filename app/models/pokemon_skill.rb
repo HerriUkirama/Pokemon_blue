@@ -42,7 +42,7 @@ class PokemonSkill < ApplicationRecord
         end
     end
     
-    # def check_pokemon_in_battle
+    # def heal_validation
     #     battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", self.pokemon_id, self.pokemon_id])
     #     battles_check = battles.any? {|battle| battle.status == "In Battle"}
     #     if battles_check

@@ -18,8 +18,25 @@ class Battle < ApplicationRecord
     validate :pokemon_in_battle_validation, on: :create
     validate :all_pokemon_death, on: :create
     validate :all_pokemon_in_battle, on: :create
+    validate :pokemon_is_deleted, on: :create
+
 
     private
+    def pokemon_is_deleted
+        @pokemon1 = Pokemon.find(pokemon_i_id)
+        @pokemon2 = Pokemon.find(pokemon_ii_id)
+ 
+ 
+        if @pokemon1.is_delete == true && @pokemon2.is_delete == true
+            errors.add(:pokemon_i_id, "Pokemon " + @pokemon1.name + " is Deleted")
+            errors.add(:pokemon_ii_id, "Pokemon " + @pokemon2.name + " is Deleted")
+        elsif @pokemon1.is_delete == true
+            errors.add(:pokemon_i_id, "Pokemon " + @pokemon1.name + " is Deleted")
+        elsif @pokemon2.is_delete == true
+            errors.add(:pokemon_ii_id, "Pokemon " + @pokemon2.name + " is Deleted")
+        end
+    end
+    
     def all_pokemon_death
         pokemons = Pokemon.where("is_delete = ?", "false")
         pokemon_hp_check = pokemons.all? {|pokemon| pokemon.pokemon_hp == 0}

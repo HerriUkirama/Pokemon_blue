@@ -72,7 +72,7 @@
             </thead>
             <tbody>
                 <% @pokemon_skills.each_with_index do |pokemon_skill, index| %>
-                    <t>
+                    <tr>
                         <td><%= index+1 %></td>
                         <td><%= pokemon_skill.skill.name %></td>
                         <td><%= pokemon_skill.last_pp%> / <%= pokemon_skill.skill.pp %></td>
@@ -85,7 +85,7 @@
     <div class="flex">
         <% if @pokemon.status !="In Battle" %>
             <button><%= link_to 'Heal', heal_pokemon_path(@pokemon),
-                data: { turbo_method: :post, turbo_confirm: "Areu sure about that?"}
+                data: { turbo_method: :post, turbo_confirm: "Are u sure about that?"}
             %></button>
         <% end %>
     </div>
