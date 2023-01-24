@@ -5,15 +5,20 @@ class BattlesController < ApplicationController
                     "Normal" => {"Fire" => 1, "Water" => 1, "Grass" => 1, "Normal" => 1}
     }
 
-    $max_exp = { 1=>100, 2=>110, 3=>120, 4=>130, 5=>140, 6=>150, 7=>160, 8=>170, 9=>180, 10=>190, 11=>200, 12=>210, 13=>220, 14=>230, 15=>240, 16=>250, 17=>260, 18=>270, 19=>280, 20=>290, 21=>300, 22=>310, 23=>320, 24=>330, 25=>340, 
-        26=>350, 27=>360, 28=>370, 29=>380, 30=>390, 31=>400, 32=>410, 33=>420, 34=>430, 35=>440, 36=>450, 37=>460, 38=>470, 39=>480, 40=>490, 41=>500, 42=>510, 43=>520, 44=>530, 45=>540, 46=>550, 47=>560, 48=>570, 49=>580, 50=>590, 
-        51=>600, 52=>610, 53=>620, 54=>630, 55=>640, 56=>650, 57=>660, 58=>670, 59=>680, 60=>690, 61=>700, 62=>710, 63=>720, 64=>730, 65=>740, 66=>750, 67=>760, 68=>770, 69=>780, 70=>790, 71=>800, 72=>810, 73=>820, 74=>830, 75=>840, 
-        76=>850, 77=>860, 78=>870, 79=>880, 80=>890, 81=>900, 82=>910, 83=>920, 84=>930, 85=>940, 86=>950, 87=>960, 88=>970, 89=>980, 90=>990, 91=>1000, 92=>1010, 93=>1020, 94=>1030, 95=>1040, 96=>1050, 97=>1060, 98=>1070, 99=>1080,100=>1090
+
+    $max_exp = {1=>100, 2=>150, 3=>200, 4=>250, 5=>300, 6=>350, 7=>400, 8=>450, 9=>500, 10=>550, 11=>600, 12=>650, 13=>700, 14=>750, 15=>800, 16=>850, 17=>900, 18=>950,19=>1000, 20=>1050, 21=>1100, 22=>1150, 23=>1200, 24=>1250 ,25=>1300,
+        26=>1350, 27=>1400, 28=>1450, 29=>1500, 30=>1550, 31=>1600, 32=>1650, 33=>1700, 34=>1750, 35=>1800, 36=>1850, 37=>1900, 38=>1950, 39=>2000, 40=>2050, 41=>2100, 42=>2150, 43=>2200, 44=>2250, 45=>2300, 46=>2350, 47=>2400, 48=>2450, 49=>2500, 50=>2550, 
+        51=>2600, 52=>2650, 53=>2700, 54=>2750, 55=>2800, 56=>2850, 57=>2900, 58=>2950, 59=>3000, 60=>3050, 61=>3100, 62=>3150, 63=>3200, 64=>3250, 65=>3300, 66=>3350, 67=>3400, 68=>3450, 69=>3500, 70=>3550, 71=>3600, 72=>3650, 73=>3700, 74=>3750, 75=>3800, 
+        76=>3850, 77=>3900, 78=>3950, 79=>4000, 80=>4050, 81=>4100, 82=>4150, 83=>4200, 84=>4250, 85=>4300, 86=>4350, 87=>4400, 88=>4450, 89=>4500, 90=>4550, 91=>4600, 92=>4650, 93=>4700, 94=>4750, 95=>4800, 96=>4850, 97=>4900, 98=>4950, 99=>5000, 100=>5050
     }
 
     LEVEL_MAX = 100
 
-    $exp = 500
+    BASE_EXP = 50
+    EXP_BONUS = 2.5
+    EXP_PUNISH = 3.75
+
+    # $exp = 500
 
     def index
         @battles = Battle.all
@@ -21,7 +26,7 @@ class BattlesController < ApplicationController
 
     def new
         @battle  = Battle.new
-        @pokemons = Pokemon.all 
+        @pokemons = Pokemon.where("is_delete = ?", "false")
         $skills = Array.new
     end
 
@@ -59,19 +64,11 @@ class BattlesController < ApplicationController
             redirect_to battle_path(@battle)
         else
 
-            @pokemons = Pokemon.all
+            @pokemons = Pokemon.where("is_delete = ?", "false")
             render :new, status: :unprocessable_entity
         end
     end
 
-    def destroy
-        @battle = Battle.find(params[:id])
-
-        @battle.destroy
-
-        redirect_to battles_path
-    end
-    
     def attack
         @battle_detail = BattleDetail.new(battle_detail_params)
         
@@ -83,9 +80,12 @@ class BattlesController < ApplicationController
         @@pokemon_got_damage = Pokemon.find(params[:pokemon_got_damage_id])
         @@pokemon_skill = PokemonSkill.find(@battle_detail.skill_id)
         
-        # Decrement pp and calculate damage 
-        @@pokemon_skill.last_pp -= 1
-        @@pokemon_skill.save
+        # Decrement pp and calculate damage
+        if @battle.status != "End"
+            puts "kurangi pp"
+            @@pokemon_skill.last_pp -= 1
+            @@pokemon_skill.save
+        end
         
         damage = damage_calculation()
         
@@ -125,7 +125,7 @@ class BattlesController < ApplicationController
                 @@pokemon_attack.save
             end
 
-            exp_winner = @@pokemon_attack.pokemon_exp + $exp
+            exp_winner = @@pokemon_attack.pokemon_exp + exp_calculation()
             if exp_winner >= @@pokemon_attack.pokemon_max_exp
                 # puts "masuk sini kk"
                 # Level_up state
@@ -182,17 +182,33 @@ class BattlesController < ApplicationController
         redirect_to battle_path
     end
 
+    def exp_calculation
+        pokemon_attack_level = @@pokemon_attack.level
+        pokemon_defence_level = @@pokemon_got_damage.level
+        exp = 0.0
+        if pokemon_attack_level < pokemon_defence_level
+            exp = BASE_EXP + ((pokemon_defence_level - pokemon_attack_level)* EXP_BONUS)
+            exp.round.to_i
+        elsif pokemon_attack_level > pokemon_defence_level
+            exp = BASE_EXP - ((pokemon_attack_level - pokemon_defence_level)* EXP_PUNISH)
+            exp.round.to_i
+        else
+            exp = BASE_EXP.to_i
+        end
+    end
+    
+
     def level_up
         pokemon_level = @@pokemon_attack.level
         max_exp = $max_exp[pokemon_level]
-        curr_exp = @@pokemon_attack.pokemon_exp + $exp
+        curr_exp = @@pokemon_attack.pokemon_exp + exp_calculation()
         # puts "curr exp : ", curr_exp
         # iteration = 0
 
         while curr_exp >= max_exp
             @@pokemon_attack.level = @@pokemon_attack.level + 1
 
-            new_skill = Skill.where("level = ?  and  element = ? ", @@pokemon_attack.level,@@pokemon_attack.pokedex.element_1 )
+            new_skill = Skill.where("level = ?  and  element = ? or level = ?  and  element = ? ", @@pokemon_attack.level,@@pokemon_attack.pokedex.element_1, @@pokemon_attack.level,@@pokemon_attack.pokedex.element_2 )
 
             if new_skill.length != 0
                 # puts "nambah skill"

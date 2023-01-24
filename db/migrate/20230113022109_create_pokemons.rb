@@ -12,6 +12,7 @@ class CreatePokemons < ActiveRecord::Migration[7.0]
       t.integer :level, default: 1
       t.integer :pokemon_max_exp
       t.integer :pokemon_exp, default: 0
+      t.boolean :is_delete, default: false
       t.string :status, default: "Free"
 
       t.timestamps

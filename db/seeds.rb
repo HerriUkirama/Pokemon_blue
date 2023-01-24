@@ -252,7 +252,7 @@ Skill.create!([{
 },
 {
     name: "Aqua Jet",
-    element: "Protect",
+    element: "Normal",
     pp: 10,
     power: 50,
     level: 12,

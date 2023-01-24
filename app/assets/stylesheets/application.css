@@ -201,4 +201,6 @@ table th, table td{
     color: red;
     display: table;
   }
-  
+.text-red{
+    color: red;
+}

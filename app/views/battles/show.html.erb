@@ -4,7 +4,12 @@
 
         <%# Pokemon I %>
         <div>
-            <h1><%= @battle.pokemon_i.name%></h1>
+            <div class="flex justify-space-between">
+                <h1><%= @battle.pokemon_i.name%></h1>
+                <% if @battle.pokemon_i.is_delete == true %>
+                    <h1 class="text-red">Pokemon Is Delete</h1>
+                <% end %>
+            </div>
             <div class="pokemon-image pokemon-detail-items">
                 <div class="flex mb-5">
                     <p class="width-fit pokemon-hp-label">hp: 
@@ -89,7 +94,6 @@
                                     <th>No</th>
                                     <th>Skill Name</th>
                                     <th>PP</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +102,6 @@
                                         <td><%= index+1 %></td>
                                         <td><%= pokemon_i_skill.skill.name %></td>
                                         <td><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
-                                        <td><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
                                     </tr>
                                 <% end %>
                             </tbody>
@@ -161,7 +164,13 @@
 
         <%# Poekmon II  %>
         <div>
-            <h1><%= @battle.pokemon_ii.name%></h1>
+
+            <div class="flex justify-space-between">
+                <h1><%= @battle.pokemon_ii.name%></h1>
+                <% if @battle.pokemon_ii.is_delete == true %>
+                    <h1 class="text-red">Pokemon Is Delete</h1>
+                <% end %>
+            </div>
             <div class="pokemon-image pokemon-detail-items">
                 <div class="flex mb-5">
                     <p class="width-fit pokemon-hp-label">hp: 

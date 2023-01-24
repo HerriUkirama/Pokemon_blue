@@ -100,6 +100,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.integer "level", default: 1
     t.integer "pokemon_max_exp"
     t.integer "pokemon_exp", default: 0
+    t.boolean "is_delete", default: false
     t.string "status", default: "Free"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
