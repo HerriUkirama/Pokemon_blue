@@ -163,8 +163,6 @@
                             %>
                         <% end %>
                     <% end %>
-                <% else %>
-                    <h3>Message</h3>
                 <% end %>
         </div>
 
@@ -185,7 +183,7 @@
                         <p class="pokemon-hp">
                             0 / <%= @pokemon_ii.pokemon_max_hp%>
                         </p>
-                    <% elsif @battle.status != "End" && @battle.game_over ==false%>
+                    <% else%>
                         <p class="pokemon-hp">
                             <%= @pokemon_ii.pokemon_hp%> / <%= @pokemon_ii.pokemon_max_hp%>
                         </p>

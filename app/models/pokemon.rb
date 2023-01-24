@@ -1,5 +1,5 @@
 class Pokemon < ApplicationRecord
-    # before_destroy :destroy_battle
+    # before_destroy :pokemon_has_battle
 
     belongs_to :pokedex
     has_many :battle_details
@@ -14,6 +14,7 @@ class Pokemon < ApplicationRecord
     validates :pokemon_hp, numericality: { greater_than_or_equal_to: 0 }
     validates :name, presence: true
     validate :pokedex_not_nil_validation, on: :create
+    validate :pokemon_has_battle, on: :destroy
     # validate :heal_validation, on: :update
 
 
@@ -29,6 +30,17 @@ class Pokemon < ApplicationRecord
             errors.add(:id, "Please select pokemon type")
         end
     end
+
+    def pokemon_has_battle        
+        @pokemon = Pokemon.find(self.id)
+        battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", self.id, self.id])
+        battles_check = battles.any? {|battle| battle.status == "In Battle"}
+        if battles_check
+            errors.add(:id, "Pokemon can't deleted")
+        end
+
+    end
+    
 
     def pokedex_not_nil_validation
         puts pokedex_id

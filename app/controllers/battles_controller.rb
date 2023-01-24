@@ -107,6 +107,7 @@ class BattlesController < ApplicationController
         if hp_check or pp_check
             @battle.winner_id = @@pokemon_attack.id
             @battle.status = "End"
+            @battle.game_over = true
             @battle.save
             
             attacker_pp = @@pokemon_attack.pokemon_skills.all? {|pokemon_skill| pokemon_skill.last_pp == 0}
@@ -171,7 +172,6 @@ class BattlesController < ApplicationController
                 @@pokemon_attack.save   
             end
             # puts "ini di luar"
-            @battle.game_over = true
             @battle.save
         end
         # End
