@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-24 w-full">
+<div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
     <h1 class="text-3xl font-bold py-12">History</h1>
     <div class="relative overflow-x-auto shadow-md rounded-md mb-5">
         <table class="w-full border-separate text-sm text-left text-gray-800">
@@ -15,34 +15,6 @@
             <tbody>
                 <% @histories.each_with_index do |history, index| %>
                     <% if index%2 ==0 %>
-                        <tr class="bg-gray-100 border-b">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
-
-                            <% if history.pokemon_i.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= history.pokemon_i.name%></td>
-                            <% else %>
-                                <td class = "px-6 py-4"><%= history.pokemon_i.name%></td>
-                            <% end %>
-
-                            <% if history.pokemon_ii.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= history.pokemon_ii.name%></td>
-                            <% else %>
-                                <td class = "px-6 py-4"><%= history.pokemon_ii.name%></td>
-                            <% end %>
-
-                            <% if history.winner == nil %>
-                                <td class = "px-6 py-4">-</td>
-                            <% else %>
-                                <td class = "px-6 py-4"><%= history.winner.name%></td>
-                            <% end %>
-                            <td class = "px-6 py-4"><%= history.battle_date%></td>
-                            <td class = "px-6 py-4">
-                                <div>
-                                    <%= link_to 'Show', history_path(history) %>
-                                </div>
-                            </td>
-                        </tr>
-                    <% else %>
                         <tr class="bg-white border-b">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
 
@@ -66,7 +38,39 @@
                             <td class = "px-6 py-4"><%= history.battle_date%></td>
                             <td class = "px-6 py-4">
                                 <div>
-                                    <%= link_to 'Show', history_path(history) %>
+                                    <%= link_to history_path(history) do %>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
+                                </div>
+                            </td>
+                        </tr>
+                    <% else %>
+                        <tr class="bg-gray-100 border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
+
+                            <% if history.pokemon_i.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= history.pokemon_i.name%></td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= history.pokemon_i.name%></td>
+                            <% end %>
+
+                            <% if history.pokemon_ii.is_delete == true %>
+                                <td class= "px-6 py-4 bg-red-500 text-white"><%= history.pokemon_ii.name%></td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= history.pokemon_ii.name%></td>
+                            <% end %>
+
+                            <% if history.winner == nil %>
+                                <td class = "px-6 py-4">-</td>
+                            <% else %>
+                                <td class = "px-6 py-4"><%= history.winner.name%></td>
+                            <% end %>
+                            <td class = "px-6 py-4"><%= history.battle_date%></td>
+                            <td class = "px-6 py-4">
+                                <div>
+                                    <%= link_to history_path(history) do %>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
                                 </div>
                             </td>
                         </tr>

@@ -1,6 +1,5 @@
-<div class="container">
-    <h1 class="page-title">Create Pokemon</h1>
-
+<div class="container mx-auto mt-24 w-full px-2 py-4">
+    <h1 class="text-3xl font-bold py-12">Create Pokemon</h1>
     <% if @pokemon.errors.any? %>
         <div id="error_explanation" class ="field_with_errors">
             <h2><%= pluralize(@pokemon.errors.count, "error") %> prohibited this pokemon from being saved:</h2>

@@ -1,27 +1,38 @@
-<div class="container">
-    <h1 class="page-title">History Detail</h1>
-    <div>
-        <table>
-            <thead>
+<div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
+    <h1 class="text-3xl font-bold py-12">History Detail</h1>
+    <div class = "relative overflow-x-auto shadow-md rounded-md mb-5">
+        <table class="w-full border-separate text-sm text-left text-gray-800">
+            <thead class = "text-xs text-gray-700 uppercase bg-gray-400">
                 <tr>
-                    <th>No</th>
-                    <th>Attacker</th>
-                    <th>Skill Name</th>
-                    <th>Message</th>
-                    <th>Demage</th>
-                    <th>Enemy Hp</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3 rounded-tl-md">No</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Attacker</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Skill Name</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Message</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3">Demage</th>
+                    <th scope="col" class="border border-slate-300 px-6 py-3 rounded-tr-md">Enemy Hp</th>
                 </tr>
             </thead>
             <tbody>
                 <% @histories.each_with_index do |history, index| %>
-                <tr>
-                    <td><%= index+1%></td>
-                    <td><%= history.pokemon.name%></td>
-                    <td><%= history.skill.name%></td>
-                    <td><%= history.message%></td>
-                    <td><%= history.damage%></td>
-                    <td><%= history.enemy_hp%></td>
-                </tr>
+                    <% if index%2 == 0%>
+                        <tr class ="bg-white">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
+                            <td class = "px-6 py-4"><%= history.pokemon.name%></td>
+                            <td class = "px-6 py-4"><%= history.skill.name%></td>
+                            <td class = "px-6 py-4"><%= history.message%></td>
+                            <td class = "px-6 py-4"><%= history.damage%></td>
+                            <td class = "px-6 py-4"><%= history.enemy_hp%></td>
+                        </tr>
+                    <% else %>
+                        <tr class ="bg-gray-100">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
+                            <td class = "px-6 py-4"><%= history.pokemon.name%></td>
+                            <td class = "px-6 py-4"><%= history.skill.name%></td>
+                            <td class = "px-6 py-4"><%= history.message%></td>
+                            <td class = "px-6 py-4"><%= history.damage%></td>
+                            <td class = "px-6 py-4"><%= history.enemy_hp%></td>
+                        </tr>
+                    <% end %>
                 <% end %>
             </tbody>
         </table>

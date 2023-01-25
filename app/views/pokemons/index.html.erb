@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-24 w-full">
+<div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
     <h1 class="text-3xl font-bold py-12">Pokemon</h1>
     <div class="flex justify-end mb-2">
         <%= link_to '+ Create', new_pokemon_path, class: "bg-blue-600 rounded-md box-content py-2 px-4 text-white font-semibold"%>
@@ -18,25 +18,6 @@
             <tbody>
                 <% @pokemons.each_with_index do |pokemon, index| %>
                     <% if index%2==0 %>
-                        <tr class = "bg-gray-100 border-b">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
-                            <td class = "px-6 py-4"><%= pokemon.name%></td>
-                            <td class = "px-6 py-4"><%= pokemon.pokedex.name%></td>
-                            <td class = "px-6 py-4"><%= pokemon.level%></td>
-                            <td class = "px-6 py-4"><%= pokemon.status%></td>
-                            <td class = "px-6 py-4">
-                                <div>
-                                    <%= link_to 'Delete', pokemon_path(pokemon), data: {
-                                    turbo_method: :delete,
-                                    turbo_confirm: "Are you sure?"
-                                    } %>
-                                </div>
-                                <div>
-                                    <%= link_to 'Show', pokemon %>
-                                </div>
-                            </td>
-                        </tr>
-                    <% else %>
                         <tr class = "bg-white border-b">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
                             <td class = "px-6 py-4"><%= pokemon.name%></td>
@@ -44,14 +25,37 @@
                             <td class = "px-6 py-4"><%= pokemon.level%></td>
                             <td class = "px-6 py-4"><%= pokemon.status%></td>
                             <td class = "px-6 py-4">
-                                <div>
-                                    <%= link_to 'Delete', pokemon_path(pokemon), data: {
+                                <div class="flex space-x-3 items-center">
+                                    <%= link_to pokemon_path(pokemon), data: {
                                     turbo_method: :delete,
                                     turbo_confirm: "Are you sure?"
-                                    } %>
+                                    } do %>
+                                        <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
+                                    <% end %>
+                                    <%= link_to pokemon do %>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
                                 </div>
-                                <div>
-                                    <%= link_to 'Show', pokemon %>
+                            </td>
+                        </tr>
+                    <% else %>
+                        <tr class = "bg-gray-100 border-b">
+                            <td scope="row" class="px-6 py-4 font-medium red text-gray-900 whitespace-nowrap"><%= index+1%></td>
+                            <td class = "px-6 py-4"><%= pokemon.name%></td>
+                            <td class = "px-6 py-4"><%= pokemon.pokedex.name%></td>
+                            <td class = "px-6 py-4"><%= pokemon.level%></td>
+                            <td class = "px-6 py-4"><%= pokemon.status%></td>
+                            <td class = "px-6 py-4">
+                                <div class="flex space-x-3 items-center">
+                                    <%= link_to pokemon_path(pokemon), data: {
+                                    turbo_method: :delete,
+                                    turbo_confirm: "Are you sure?"
+                                    } do %>
+                                        <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
+                                    <% end %>
+                                    <%= link_to pokemon do %>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
                                 </div>
                             </td>
                         </tr>
