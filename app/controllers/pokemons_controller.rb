@@ -1,4 +1,6 @@
 class PokemonsController < ApplicationController
+    skip_before_action :verify_authenticity_token
+
     def index
         @pokemons = Pokemon.where("is_delete = ?", "false")
     end
@@ -53,8 +55,8 @@ class PokemonsController < ApplicationController
     end
 
     
-    def destroy
-        @pokemon = Pokemon.find(params[:id])
+    def delete_pokemon
+        @pokemon = Pokemon.find(params[:id_pokemon])
         battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", params[:id], params[:id]])
         
         if battles.length == 0
@@ -68,7 +70,7 @@ class PokemonsController < ApplicationController
     end
     
     def heal
-        @pokemon = Pokemon.find(params[:id])
+        @pokemon = Pokemon.find(params[:id_pokemon])
         @pokemon_skills = @pokemon.pokemon_skills
         
         if @pokemon.status != "In Battle"

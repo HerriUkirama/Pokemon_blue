@@ -14,13 +14,18 @@
                 <div class="basis-5/6 xl:basis-10/12">
                     <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
                         <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_ii.id %>
-                            <div class="h-8 bg-green-600 rounded-md" style="width: 0%"></div>
-                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
-                                0 / <%= @pokemon_i.pokemon_max_hp%>
+                            <div class="h-8 bg-green-600 rounded-md" id="pokemon_i_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_i_hp_detail">
+                                <%= @battle.loser_hp%> / <%= @battle.loser_max_hp%>
+                            </div>
+                        <% elsif @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_i.id %>
+                            <div class="h-8 bg-green-600 rounded-md" id="pokemon_i_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_i_hp_detail">
+                                <%= @battle.winner_hp%> / <%= @battle.winner_max_hp%>
                             </div>
                         <% else%>
-                            <div class="h-8 bg-green-600 rounded-md" style="width: 100%"></div>
-                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                            <div class="h-8 bg-green-600 rounded-md" id="pokemon_i_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_i_hp_detail">
                                 <%= @pokemon_i.pokemon_hp%> / <%= @pokemon_i.pokemon_max_hp%>
                             </div>
                         <% end %>   
@@ -41,7 +46,13 @@
                     <%= image_tag @pokemon_i.pokedex.image, class: "bg-gray-300 box-border p-5 rounded-md" %>
                 </div>
                 <div class="flex justify-between items-center px-3 py-5">
-                    <h1 class="text-2xl font-semibold">Level : <%= @pokemon_i.level%></h1>
+                    <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_ii.id %>
+                        <h1 class="text-2xl font-semibold">Level : <%= @battle.loser_level%></h1>
+                    <% elsif @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_i.id %>
+                        <h1 class="text-2xl font-semibold">Level : <%= @battle.winner_level_old%></h1>
+                    <% else%>
+                        <h1 class="text-2xl font-semibold">Level : <%= @pokemon_i.level%></h1>
+                    <% end %>
                     <div class="flex space-x-3 text-white">
                         <% if @pokemon_i.pokedex.element_1 == "Fire" %>
                             <h1 class="bg-red-500 rounded-md w-20 text-center font-semibold py-1"><%= @pokemon_i.pokedex.element_1%></h1>
@@ -82,12 +93,21 @@
                                 </thead>
                                 <tbody>
                                     <% @pokemon_i_skills.each_with_index do |pokemon_i_skill, index| %>
-                                        <t>
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1 %></td>
-                                            <td class = "px-6 py-4"><%= pokemon_i_skill.skill.name %></td>
-                                            <td class = "px-6 py-4"><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
-                                            <td class = "px-6 py-4"><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
-                                        </tr>
+                                        <% if index%2==0 %>
+                                            <tr class = "bg-white">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1 %></td>
+                                                <td class = "px-6 py-4"><%= pokemon_i_skill.skill.name %></td>
+                                                <td class = "px-6 py-4"><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
+                                                <td class = "px-6 py-4"><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
+                                            </tr>
+                                        <% else %>
+                                            <tr class = "bg-gray-100">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1 %></td>
+                                                <td class = "px-6 py-4"><%= pokemon_i_skill.skill.name %></td>
+                                                <td class = "px-6 py-4"><%= pokemon_i_skill.last_pp%> / <%= pokemon_i_skill.skill.pp %></td>
+                                                <td class = "px-6 py-4"><%= render 'attack', pokemon_i_skill: pokemon_i_skill%></td>
+                                            </tr>
+                                        <% end %>
                                     <% end %>
                                 </tbody>
                             </table>
@@ -102,9 +122,12 @@
                         </div>
                         <div class="basis-5/6 xl:basis-10/12">
                             <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
-                                <div class="h-8 bg-blue-600 rounded-md" style="width: 19%"></div>
-                                <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
-                                    <%= @pokemon_i.pokemon_exp%> / <%= @pokemon_i.pokemon_max_exp%>
+                                <div class="h-8 bg-blue-600 rounded-md"  id="pokemon_i_exp_bar"></div>
+                                <div class= "absolute flex top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                                    <div  id="pokemon_i_exp_detail">
+                                        <%= @battle.winner_exp%> / <%= @battle.winner_max_exp%>
+                                    </div>
+                                    <h1 class="text-green-600 pl-3">+<%= @battle.winner_exp_plus%></h1>
                                 </div>
                             </div>
                         </div>
@@ -114,19 +137,19 @@
                         <div class="rounded-md shadow-md p-5 space-y-1">
                             <div class="flex justify-between font-medium">
                                 <p>Attack</p>
-                                <p><%= @battle.pokemon_i.pokemon_attack%></p>
+                                <p><%= @battle.winner_attack_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Defence</p>
-                                <p><%= @battle.pokemon_i.pokemon_defence%></p>
+                                <p><%= @battle.winner_defence_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Speed</p>
-                                <p><%= @battle.pokemon_i.pokemon_speed%></p>
+                                <p><%= @battle.winner_speed_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Special</p>
-                                <p><%= @battle.pokemon_i.pokemon_special%></p>
+                                <p><%= @battle.winner_special_old%></p>
                             </div>
                         </div>
                     </div>
@@ -238,13 +261,18 @@
                 <div class="basis-5/6 xl:basis-10/12">
                     <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
                         <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_i.id %>
-                            <div class="h-8 bg-green-600 rounded-md" style="width: 0%"></div>
-                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
-                                0 / <%= @pokemon_ii.pokemon_max_hp%>
+                            <div class="h-8 bg-green-600 rounded-md"  id="pokemon_ii_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_ii_hp_detail">
+                                <%= @battle.loser_hp%> / <%= @battle.loser_max_hp%>
+                            </div>
+                        <% elsif @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_ii.id %>
+                            <div class="h-8 bg-green-600 rounded-md"  id="pokemon_ii_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_ii_hp_detail">
+                                <%= @battle.winner_hp%> / <%= @battle.winner_max_hp%>
                             </div>
                         <% else%>
-                            <div class="h-8 bg-green-600 rounded-md" style="width: 100%"></div>
-                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                            <div class="h-8 bg-green-600 rounded-md"  id="pokemon_ii_hp_bar"></div>
+                            <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" id="pokemon_ii_hp_detail">
                                 <%= @pokemon_ii.pokemon_hp%> / <%= @pokemon_ii.pokemon_max_hp%>
                             </div>
                         <% end %>   
@@ -335,9 +363,12 @@
                         </div>
                         <div class="basis-5/6 xl:basis-10/12">
                             <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
-                                <div class="h-8 bg-blue-600 rounded-md" style="width: 19%"></div>
-                                <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
-                                    <%= @pokemon_ii.pokemon_exp%> / <%= @pokemon_ii.pokemon_max_exp%>
+                                <div class="h-8 bg-blue-600 rounded-md"  id="pokemon_ii_exp_bar"></div>
+                                <div class= "absolute flex top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                                    <div  id="pokemon_ii_exp_detail">
+                                        <%= @battle.winner_exp%> / <%= @battle.winner_max_exp%>
+                                    </div>
+                                    <h1 class="text-green-600 pl-3">+<%= @battle.winner_exp_plus%></h1>
                                 </div>
                             </div>
                         </div>
@@ -347,19 +378,19 @@
                         <div class="rounded-md shadow-md p-5 space-y-1">
                             <div class="flex justify-between font-medium">
                                 <p>Attack</p>
-                                <p><%= @battle.pokemon_ii.pokemon_attack%></p>
+                                <p><%= @battle.winner_attack_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Defence</p>
-                                <p><%= @battle.pokemon_ii.pokemon_defence%></p>
+                                <p><%= @battle.winner_defence_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Speed</p>
-                                <p><%= @battle.pokemon_ii.pokemon_speed%></p>
+                                <p><%= @battle.winner_speed_old%></p>
                             </div>
                             <div class="flex justify-between font-medium">
                                 <p>Special</p>
-                                <p><%= @battle.pokemon_ii.pokemon_special%></p>
+                                <p><%= @battle.winner_special_old%></p>
                             </div>
                         </div>
                     </div>
@@ -436,3 +467,34 @@
         </div>
     </div>
 </div>
+
+<script>
+const pokemon_i_hp_detail = document.getElementById("pokemon_i_hp_detail");
+const pokemon_i_hp_bar = document.getElementById("pokemon_i_hp_bar");
+const pokemon_ii_hp_detail = document.getElementById("pokemon_ii_hp_detail");
+const pokemon_ii_hp_bar = document.getElementById("pokemon_ii_hp_bar");
+
+
+let pokemon_i_hp_detail_split = pokemon_i_hp_detail.innerHTML.trim().split("/");
+let pokemon_i_hp_bar_calculate = pokemon_i_hp_detail_split[0]/pokemon_i_hp_detail_split[1]*100;
+let pokemon_ii_hp_detail_split = pokemon_ii_hp_detail.innerHTML.trim().split("/");
+let pokemon_ii_hp_bar_calculate = pokemon_ii_hp_detail_split[0]/pokemon_ii_hp_detail_split[1]*100;
+
+pokemon_i_hp_bar.style.width = String(pokemon_i_hp_bar_calculate)+"%";
+pokemon_ii_hp_bar.style.width = String(pokemon_ii_hp_bar_calculate)+"%";
+
+const pokemon_i_exp_detail = document.getElementById("pokemon_i_exp_detail");
+const pokemon_i_exp_bar = document.getElementById("pokemon_i_exp_bar");
+const pokemon_ii_exp_detail = document.getElementById("pokemon_ii_exp_detail");
+const pokemon_ii_exp_bar = document.getElementById("pokemon_ii_exp_bar");
+
+if(pokemon_i_exp_detail != null){
+    let pokemon_i_exp_detail_split = pokemon_i_exp_detail.innerHTML.trim().split("/");
+    let pokemon_i_exp_bar_calculate = pokemon_i_exp_detail_split[0]/pokemon_i_exp_detail_split[1]*100;
+    pokemon_i_exp_bar.style.width = String(pokemon_i_exp_bar_calculate)+"%";
+} else if(pokemon_ii_exp_detail != null){
+    let pokemon_ii_exp_detail_split = pokemon_ii_exp_detail.innerHTML.trim().split("/");
+    let pokemon_ii_exp_bar_calculate = pokemon_ii_exp_detail_split[0]/pokemon_ii_exp_detail_split[1]*100;
+    pokemon_ii_exp_bar.style.width = String(pokemon_ii_exp_bar_calculate)+"%";
+}
+</script>

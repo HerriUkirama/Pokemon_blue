@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   resources :pokemons do
     post :heal, on: :member
+    post :delete_pokemon, on: :member
   end
 
   resources :pokedexs, only: [:index, :show]

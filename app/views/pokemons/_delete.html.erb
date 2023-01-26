@@ -1,0 +1,6 @@
+<form action="<%= delete_pokemon_pokemon_path(pokemon)%>" method="post">
+    <input type="text" name="id_pokemon" value="<%= pokemon.id%>" hidden>
+    <button type="submit">
+        <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
+    </button>
+</form>

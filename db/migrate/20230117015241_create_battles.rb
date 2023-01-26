@@ -17,6 +17,27 @@ class CreateBattles < ActiveRecord::Migration[7.0]
       t.datetime :battle_date
       t.string :status, default: "In Battle"
 
+      t.integer :winner_hp, null: true
+      t.integer :winner_level_old, null: true
+      t.integer :winner_level_plus, null: true
+      t.integer :winner_max_hp,  null: true
+      t.integer :winner_hp_plus,  null: true
+      t.integer :winner_exp, null: true
+      t.integer :winner_max_exp, null: true
+      t.integer :winner_exp_plus, null: true
+      t.integer :loser_hp, null: true
+      t.integer :loser_max_hp, null: true
+      t.integer :loser_level, null: true
+      t.integer :winner_attack_old, null: true
+      t.integer :winner_attack_plus, null: true
+      t.integer :winner_defence_old, null: true
+      t.integer :winner_defence_plus, null: true
+      t.integer :winner_speed_old, null: true
+      t.integer :winner_speed_plus, null: true
+      t.integer :winner_special_old, null: true
+      t.integer :winner_special_plus, null: true
+
+
       t.timestamps
     end
     # add_foreign_key :battles, :pokemons, column: :pokemon1_id

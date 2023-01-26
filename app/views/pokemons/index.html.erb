@@ -26,12 +26,7 @@
                             <td class = "px-6 py-4"><%= pokemon.status%></td>
                             <td class = "px-6 py-4">
                                 <div class="flex space-x-3 items-center">
-                                    <%= link_to pokemon_path(pokemon), data: {
-                                    turbo_method: :delete,
-                                    turbo_confirm: "Are you sure?"
-                                    } do %>
-                                        <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
-                                    <% end %>
+                                    <%= render 'delete', pokemon: pokemon %>
                                     <%= link_to pokemon do %>
                                         <%= heroicon "eye", variant: :outline%>
                                     <% end %>
@@ -47,13 +42,8 @@
                             <td class = "px-6 py-4"><%= pokemon.status%></td>
                             <td class = "px-6 py-4">
                                 <div class="flex space-x-3 items-center">
-                                    <%= link_to pokemon_path(pokemon), data: {
-                                    turbo_method: :delete,
-                                    turbo_confirm: "Are you sure?"
-                                    } do %>
-                                        <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
-                                    <% end %>
-                                    <%= link_to(pokemon, data: { turbolinks: false}) do %>
+                                    <%= render 'delete', pokemon: pokemon %>
+                                    <%= link_to(pokemon) do %>
                                         <%= heroicon "eye", variant: :outline%>
                                     <% end %>
                                 </div>

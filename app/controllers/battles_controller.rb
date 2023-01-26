@@ -1,4 +1,7 @@
 class BattlesController < ApplicationController
+
+    skip_before_action :verify_authenticity_token
+    
     $element_chart = {"Fire" => {"Fire" => 1, "Water" => 0.5, "Grass" => 2, "Normal" => 1},
                     "Water" => {"Fire" => 2, "Water" => 1, "Grass" => 0.5, "Normal" => 1},
                     "Grass" => {"Fire" => 0.5, "Water" => 2, "Grass" => 1, "Normal" => 1},
@@ -127,7 +130,8 @@ class BattlesController < ApplicationController
                 @@pokemon_attack.save
             end
 
-            exp_winner = @@pokemon_attack.pokemon_exp + exp_calculation()
+            @exp_calculation = exp_calculation()
+            exp_winner = @@pokemon_attack.pokemon_exp + @exp_calculation
             if exp_winner >= @@pokemon_attack.pokemon_max_exp
                 # puts "masuk sini kk"
                 # Level_up state
@@ -136,7 +140,31 @@ class BattlesController < ApplicationController
                 @battle.save
                 if @battle.level_up
                     # puts "level up"
-                    level_up()
+                    
+                    @battle.winner_hp = @@pokemon_attack.pokemon_hp
+                    @battle.winner_max_hp = @@pokemon_attack.pokemon_max_hp
+                    @battle.winner_level_old = @@pokemon_attack.level
+                    @battle.loser_hp = @@pokemon_got_damage.pokemon_hp
+                    @battle.loser_max_hp = @@pokemon_got_damage.pokemon_max_hp
+                    @battle.loser_level = @@pokemon_got_damage.level
+                    @battle.winner_exp = @@pokemon_attack.pokemon_exp
+                    @battle.winner_max_exp = @@pokemon_attack.pokemon_max_exp
+                    @battle.winner_attack_old = @@pokemon_attack.pokemon_attack
+                    @battle.winner_defence_old = @@pokemon_attack.pokemon_defence
+                    @battle.winner_special_old = @@pokemon_attack.pokemon_special
+                    @battle.winner_speed_old = @@pokemon_attack.pokemon_speed
+                    @battle.save
+
+                    arr = level_up()
+
+                    @battle.winner_level_plus = arr[5]
+                    @battle.winner_hp_plus = arr[4]
+                    @battle.winner_exp_plus = @exp_calculation
+                    @battle.winner_attack_plus = arr[0]
+                    @battle.winner_defence_plus = arr[1]
+                    @battle.winner_special_plus = arr[2]
+                    @battle.winner_speed_plus = arr[3]
+                    @battle.save
                 end
 
                 if $skills.length != 0
@@ -168,8 +196,24 @@ class BattlesController < ApplicationController
                 # End
             elsif exp_winner < @@pokemon_attack.pokemon_max_exp
                 # puts "mask sini kakak"
+                
+                @battle.winner_hp = @@pokemon_attack.pokemon_hp
+                @battle.winner_level_old = @@pokemon_attack.level
+                @battle.winner_max_hp = @@pokemon_attack.pokemon_max_hp
+                @battle.loser_hp = @@pokemon_got_damage.pokemon_hp
+                @battle.loser_max_hp = @@pokemon_got_damage.pokemon_max_hp
+                @battle.loser_level = @@pokemon_got_damage.level
+                @battle.winner_exp = @@pokemon_attack.pokemon_exp
+                @battle.winner_max_exp = @@pokemon_attack.pokemon_max_exp
+                @battle.winner_exp_plus = @exp_calculation
+                @battle.winner_attack_old = @@pokemon_attack.pokemon_attack
+                @battle.winner_defence_old = @@pokemon_attack.pokemon_defence
+                @battle.winner_special_old = @@pokemon_attack.pokemon_special
+                @battle.winner_speed_old = @@pokemon_attack.pokemon_speed
+                @battle.save
+                
                 @@pokemon_attack.pokemon_exp = exp_winner
-                @@pokemon_attack.save   
+                @@pokemon_attack.save
             end
             # puts "ini di luar"
             @battle.save
@@ -206,6 +250,12 @@ class BattlesController < ApplicationController
         # puts "curr exp : ", curr_exp
         # iteration = 0
 
+        attack_plus = 0
+        defence_plus = 0
+        speed_plus = 0
+        special_plus = 0
+        hp_plus=0
+        level_plus = 0
         while curr_exp >= max_exp
             @@pokemon_attack.level = @@pokemon_attack.level + 1
 
@@ -217,13 +267,24 @@ class BattlesController < ApplicationController
                     $skills.push(new_skill[x].id)
                 end
             end
-            @@pokemon_attack.pokemon_attack = @@pokemon_attack.pokemon_attack + rand(5..10)
-            @@pokemon_attack.pokemon_defence = @@pokemon_attack.pokemon_defence + rand(5..10)
-            @@pokemon_attack.pokemon_speed = @@pokemon_attack.pokemon_speed + rand(5..10)
-            @@pokemon_attack.pokemon_special = @@pokemon_attack.pokemon_special + rand(5..10)
-
+            attack_rand = rand(5..10)
+            defence_rand = rand(5..10)
+            speed_rand = rand(5..10)
+            special_rand = rand(5..10)
             hp_rand = rand(5..10)
 
+            attack_plus += attack_rand
+            defence_plus += defence_rand
+            speed_plus += speed_rand
+            special_plus += special_rand
+            hp_plus += hp_rand
+            level_plus += 1
+
+            
+            @@pokemon_attack.pokemon_attack = @@pokemon_attack.pokemon_attack + attack_rand
+            @@pokemon_attack.pokemon_defence = @@pokemon_attack.pokemon_defence + defence_rand
+            @@pokemon_attack.pokemon_speed = @@pokemon_attack.pokemon_speed + speed_rand
+            @@pokemon_attack.pokemon_special = @@pokemon_attack.pokemon_special + special_rand
             @@pokemon_attack.pokemon_max_hp = @@pokemon_attack.pokemon_max_hp + hp_rand
             @@pokemon_attack.pokemon_hp = @@pokemon_attack.pokemon_hp + hp_rand
             @@pokemon_attack.pokemon_exp = curr_exp - max_exp
@@ -234,6 +295,9 @@ class BattlesController < ApplicationController
             pokemon_level += 1
             max_exp = $max_exp[pokemon_level]
         end
+        arr = Array.new
+        arr.push(attack_plus, defence_plus, special_plus, speed_plus, hp_plus, level_plus)
+        arr
     end
 
     def change_skill_state
