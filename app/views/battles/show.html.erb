@@ -1,6 +1,6 @@
 <div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
-    <h1 class="text-3xl font-bold py-12">Battles</h1>
-    <div class="flex justify-between">
+    <h1 class="text-5xl font-bold py-12">Battles</h1>
+    <div class="flex flex-col md:flex-row justify-between">
 
         <%# Pokemon I %>
         <div class="basis-4/12 space-y-5">
@@ -8,10 +8,10 @@
                 <h1 class ="text-center text-6xl font-bold mb-5"><%= @battle.pokemon_i.name%></h1>
             </div>
             <div class ="flex flex-row justify-between">
-                <div class = "basis-1/6 xl:basis-1/12">
+                <div class = "basis-1/6 xl:basis-2/12">
                     <h1 class = "text-2xl font-semibold">Hp :</h1>
                 </div>
-                <div class="basis-5/6 xl:basis-11/12">
+                <div class="basis-5/6 xl:basis-10/12">
                     <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
                         <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_ii.id %>
                             <div class="h-8 bg-green-600 rounded-md" style="width: 0%"></div>
@@ -28,7 +28,18 @@
                 </div>
             </div>
             <div class = "w-full h-fit bg-white box-border p-3 shadow-md rounded-md">
-                <%= image_tag @pokemon_i.pokedex.image, class: "bg-gray-300 box-border p-5 rounded-md" %>
+                <div class = "relative w-full h-full">
+                    <% if @battle.winner_id == @pokemon_i.id %>
+                        <div class = "absolute h-full w-full z-10 opacity-80 bg-gray-600  rounded-md flex justify-center items-center">
+                            <h1 class="text-7xl font-bold text-yellow-400">Winner</h1>
+                        </div>
+                    <% elsif @battle.winner_id ==@pokemon_ii.id %>
+                        <div class = "absolute h-full w-full z-10 opacity-80 bg-gray-600  rounded-md flex justify-center items-center">
+                            <h1 class="text-7xl font-bold text-red-400">Loser</h1>
+                        </div>
+                    <% end %>
+                    <%= image_tag @pokemon_i.pokedex.image, class: "bg-gray-300 box-border p-5 rounded-md" %>
+                </div>
                 <div class="flex justify-between items-center px-3 py-5">
                     <h1 class="text-2xl font-semibold">Level : <%= @pokemon_i.level%></h1>
                     <div class="flex space-x-3 text-white">
@@ -85,30 +96,38 @@
                 <% end %>
             <% elsif  @battle.status == "End" && @battle.winner_id == @battle.pokemon_i_id  && @battle.change_skill == false %>
                 <div>
-                    <div class="flex mb-5">
-                        <p class="width-fit pokemon-exp-label">exp: 
-                        </p>    
-                        <p class="pokemon-exp">
-                            <%= @pokemon_i.pokemon_exp%> / <%= @pokemon_i.pokemon_max_exp%>
-                        </p>
+                    <div class ="flex flex-row justify-between">
+                        <div class = "basis-1/6 xl:basis-2/12">
+                            <h1 class = "text-2xl font-semibold">Exp :</h1>
+                        </div>
+                        <div class="basis-5/6 xl:basis-10/12">
+                            <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
+                                <div class="h-8 bg-blue-600 rounded-md" style="width: 19%"></div>
+                                <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                                    <%= @pokemon_i.pokemon_exp%> / <%= @pokemon_i.pokemon_max_exp%>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h2>Stats</h2>
-                    <div class="stats">
-                        <div class="flex justify-space-between">
-                            <p>Attack</p>
-                            <p><%= @battle.pokemon_i.pokemon_attack%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Defence</p>
-                            <p><%= @battle.pokemon_i.pokemon_defence%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Speed</p>
-                            <p><%= @battle.pokemon_i.pokemon_speed%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Special</p>
-                            <p><%= @battle.pokemon_i.pokemon_special%></p>
+                    <div class ="pt-5">
+                        <h1 class="text-2xl font-semibold">Stats</h1>
+                        <div class="rounded-md shadow-md p-5 space-y-1">
+                            <div class="flex justify-between font-medium">
+                                <p>Attack</p>
+                                <p><%= @battle.pokemon_i.pokemon_attack%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Defence</p>
+                                <p><%= @battle.pokemon_i.pokemon_defence%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Speed</p>
+                                <p><%= @battle.pokemon_i.pokemon_speed%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Special</p>
+                                <p><%= @battle.pokemon_i.pokemon_special%></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -185,8 +204,8 @@
         </div>
 
         <%# V/S %>
-        <div class="flex justify-center flex-col">
-                <h1 class="text-center">V/S</h1>    
+        <div class="flex justify-center flex-col space-y-5 items-center">
+                <h1 class="text-center text-9xl font-bold">V/S</h1>    
                 <% if @battle.status == "End" %>
                     <h3>Game Over</h3>
                     <h3><%= @battle.winner.name%> Win</h3>
@@ -213,10 +232,10 @@
                 <h1 class ="text-center text-6xl font-bold mb-5"><%= @battle.pokemon_ii.name%></h1>
             </div>
             <div class ="flex flex-row justify-between">
-                <div class = "basis-1/6 xl:basis-1/12">
+                <div class = "basis-1/6 xl:basis-2/12">
                     <h1 class = "text-2xl font-semibold">Hp :</h1>
                 </div>
-                <div class="basis-5/6 xl:basis-11/12">
+                <div class="basis-5/6 xl:basis-10/12">
                     <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
                         <% if @battle.status == "End" && @battle.game_over ==true && @battle.winner_id == @pokemon_i.id %>
                             <div class="h-8 bg-green-600 rounded-md" style="width: 0%"></div>
@@ -233,7 +252,18 @@
                 </div>
             </div>
             <div class = "w-full h-fit bg-white box-border p-3 shadow-md rounded-md">
-                <%= image_tag @pokemon_ii.pokedex.image, class: "bg-gray-300 box-border p-5 rounded-md" %>
+                <div class = "relative w-full h-full">
+                    <% if @battle.winner_id == @pokemon_ii.id %>
+                        <div class = "absolute h-full w-full z-10 opacity-80 bg-gray-600  rounded-md flex justify-center items-center">
+                            <h1 class="text-7xl font-bold text-yellow-400">Winner</h1>
+                        </div>
+                    <% elsif @battle.winner_id ==@pokemon_i.id %>
+                        <div class = "absolute h-full w-full z-10 opacity-80 bg-gray-600  rounded-md flex justify-center items-center">
+                            <h1 class="text-7xl font-bold text-red-400">Loser</h1>
+                        </div>
+                    <% end %>
+                    <%= image_tag @pokemon_ii.pokedex.image, class: "bg-gray-300 box-border p-5 rounded-md" %>
+                </div>
                 <div class="flex justify-between items-center px-3 py-5">
                     <h1 class="text-2xl font-semibold">Level : <%= @pokemon_ii.level%></h1>
                     <div class="flex space-x-3 text-white">
@@ -299,30 +329,38 @@
                 <% end %>
             <% elsif  @battle.status == "End" && @battle.winner_id == @battle.pokemon_ii_id && @battle.change_skill ==false %>
                 <div>
-                    <div class="flex mb-5">
-                        <p class="width-fit pokemon-exp-label">exp: 
-                        </p>    
-                        <p class="pokemon-exp">
-                            <%= @pokemon_ii.pokemon_exp%> / <%= @pokemon_ii.pokemon_max_exp%>
-                        </p>
+                    <div class ="flex flex-row justify-between">
+                        <div class = "basis-1/6 xl:basis-2/12">
+                            <h1 class = "text-2xl font-semibold">Exp :</h1>
+                        </div>
+                        <div class="basis-5/6 xl:basis-10/12">
+                            <div class=" relative w-full h-8 bg-gray-300 rounded-md ">
+                                <div class="h-8 bg-blue-600 rounded-md" style="width: 19%"></div>
+                                <div class= "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white">
+                                    <%= @pokemon_ii.pokemon_exp%> / <%= @pokemon_ii.pokemon_max_exp%>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h2>Stats</h2>
-                    <div class="stats">
-                        <div class="flex justify-space-between">
-                            <p>Attack</p>
-                            <p><%= @battle.pokemon_ii.pokemon_attack%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Defence</p>
-                            <p><%= @battle.pokemon_ii.pokemon_defence%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Speed</p>
-                            <p><%= @battle.pokemon_ii.pokemon_speed%></p>
-                        </div>
-                        <div class="flex justify-space-between">
-                            <p>Special</p>
-                            <p><%= @battle.pokemon_ii.pokemon_special%></p>
+                    <div class ="pt-5">
+                        <h1 class="text-2xl font-semibold">Stats</h1>
+                        <div class="rounded-md shadow-md p-5 space-y-1">
+                            <div class="flex justify-between font-medium">
+                                <p>Attack</p>
+                                <p><%= @battle.pokemon_ii.pokemon_attack%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Defence</p>
+                                <p><%= @battle.pokemon_ii.pokemon_defence%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Speed</p>
+                                <p><%= @battle.pokemon_ii.pokemon_speed%></p>
+                            </div>
+                            <div class="flex justify-between font-medium">
+                                <p>Special</p>
+                                <p><%= @battle.pokemon_ii.pokemon_special%></p>
+                            </div>
                         </div>
                     </div>
                 </div>

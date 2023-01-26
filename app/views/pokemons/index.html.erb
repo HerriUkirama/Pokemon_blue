@@ -1,5 +1,5 @@
 <div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
-    <h1 class="text-3xl font-bold py-12">Pokemon</h1>
+    <h1 class="text-5xl font-bold py-12">Pokemon</h1>
     <div class="flex justify-end mb-2">
         <%= link_to '+ Create', new_pokemon_path, class: "bg-blue-600 rounded-md box-content py-2 px-4 text-white font-semibold"%>
     </div>
@@ -53,7 +53,7 @@
                                     } do %>
                                         <%= heroicon "trash", variant: :outline, options: {class: "text-red-500"}%>
                                     <% end %>
-                                    <%= link_to pokemon do %>
+                                    <%= link_to(pokemon, data: { turbolinks: false}) do %>
                                         <%= heroicon "eye", variant: :outline%>
                                     <% end %>
                                 </div>

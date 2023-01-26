@@ -1,5 +1,5 @@
 <div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
-    <h1 class="text-3xl font-bold py-12">Battles</h1>
+    <h1 class="text-5xl font-bold py-12">Battles</h1>
     <div class="flex justify-end mb-2">
         <%= link_to '+ Create', new_battle_path, class: "bg-blue-600 rounded-md box-content py-2 px-4 text-white font-semibold"%>
     </div>
@@ -22,13 +22,13 @@
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
 
                             <% if battle.pokemon_i.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_i.name%></td>
+                                <td class= "px-6 py-4 bg-red-400 text-white"><%= battle.pokemon_i.name%></td>
                             <% else %>
                                 <td class = "px-6 py-4"><%= battle.pokemon_i.name%></td>
                             <% end %>
 
                             <% if battle.pokemon_ii.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_ii.name%></td>
+                                <td class= "px-6 py-4 bg-red-400 text-white"><%= battle.pokemon_ii.name%></td>
                             <% else %>
                                 <td class="px-6 py-4"><%= battle.pokemon_ii.name%></td>
                             <% end %>
@@ -42,7 +42,9 @@
                             <td class="px-6 py-4"><%= battle.status%></td>
                             <td class="px-6 py-4">
                                 <div>
-                                    <%= link_to 'Show', battle %>
+                                    <%= link_to battle do%>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
                                 </div>
                             </td>
                         </tr>
@@ -51,13 +53,13 @@
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"><%= index+1%></td>
 
                             <% if battle.pokemon_i.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_i.name%></td>
+                                <td class= "px-6 py-4 bg-red-400 text-white"><%= battle.pokemon_i.name%></td>
                             <% else %>
                                 <td class = "px-6 py-4"><%= battle.pokemon_i.name%></td>
                             <% end %>
 
                             <% if battle.pokemon_ii.is_delete == true %>
-                                <td class= "px-6 py-4 bg-red-500 text-white"><%= battle.pokemon_ii.name%></td>
+                                <td class= "px-6 py-4 bg-red-400 text-white"><%= battle.pokemon_ii.name%></td>
                             <% else %>
                                 <td class="px-6 py-4"><%= battle.pokemon_ii.name%></td>
                             <% end %>
@@ -71,7 +73,9 @@
                             <td class="px-6 py-4"><%= battle.status%></td>
                             <td class="px-6 py-4">
                                 <div>
-                                    <%= link_to 'Show', battle %>
+                                    <%= link_to battle do%>
+                                        <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
                                 </div>
                             </td>
                         </tr>
@@ -80,4 +84,12 @@
             </tbody>
         </table>
     </div>
+    <div class = "space-y-3">
+        <h1 class="font-semibold text-lg">Legend : </h1>
+        <div class="flex h-fit space-x-3">
+            <div class="w-5 h-5 bg-red-400"></div>
+            <h1>Pokemon Is deleted</h1>
+        </div>
+    </div>
 </div>
+<script>console.log("hello bababng")</script>
