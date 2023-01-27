@@ -22,8 +22,6 @@ class PokemonsController < ApplicationController
         @pokedex = Pokedex.find(@pokemon.pokedex_id)
         @initiate_skills = @pokedex.skills
 
-
-
         @pokemon.pokemon_attack = @pokedex.attack
         @pokemon.pokemon_defence = @pokedex.defence
         @pokemon.pokemon_speed = @pokedex.speed
@@ -40,12 +38,11 @@ class PokemonsController < ApplicationController
                 @pokemon_skill.skill_id = skill.id
                 @pokemon_skill.last_pp = skill.pp
 
-                if @pokemon_skill.save
-                    puts "skill berhasil di tambah"
-                end
+                @pokemon_skill.save
             end
             
-            redirect_to pokemons_path
+            flash[:success] = "Pokemon created successfully"
+            redirect_to pokemon_path(@pokemon)
         else
 
             @pokemon = Pokemon.new
@@ -59,6 +56,8 @@ class PokemonsController < ApplicationController
         @pokemon = Pokemon.find(params[:id_pokemon])
         battles = Battle.where(["pokemon_i_id = ?  or pokemon_ii_id = ?", params[:id], params[:id]])
         
+        # require 'pry'
+        # binding.pry
         if battles.length == 0
             @pokemon.destroy
         else
@@ -85,6 +84,7 @@ class PokemonsController < ApplicationController
                 pokemon_skill.save
             end
             
+            flash[:success] = "Pokemon Successfully Healed"
             redirect_to pokemon_path
         
         else

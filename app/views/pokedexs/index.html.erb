@@ -1,10 +1,14 @@
-<div class="container mx-auto mt-24 w-full px-2 sm:px-4 py-4">
+<div class="container mx-auto">
+
+    <% if flash[:success] %>
+        <div id="flash-success" class="absolute block right-0 top-0 bg-green-100 m-3 py-3 px-5 text-green-600 rounded-lg font-semibold text-lg"><%= flash[:success] %></div>
+    <% end %>
     <h1 class="text-5xl font-bold py-12">Pokédex</h1>
 
     <div class = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         <% @pokedexes.each do |pokedex| %>
             <%= link_to pokedex do %>
-                <div class="w-full h-fit box-border shadow-lg rounded-lg">
+                <div class="w-full h-fit box-border drop-shadow-lg shadow-lg rounded-lg">
                     <%= image_tag pokedex.image, class: "bg-gray-300 box-border p-5 rounded-t-lg" %>
                     <div class="flex justify-between items-center px-3 py-5">
                         <h1 class="text-2xl font-semibold"><%= pokedex.name%></h1>

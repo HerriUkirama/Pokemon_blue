@@ -64,9 +64,10 @@ class BattlesController < ApplicationController
             @battle.pokemon_ii.status ="In Battle"
             @battle.pokemon_i.save
             @battle.pokemon_ii.save
+
+            flash[:success] = "Battle created successfully"
             redirect_to battle_path(@battle)
         else
-
             @pokemons = Pokemon.where("is_delete = ?", "false")
             render :new, status: :unprocessable_entity
         end
@@ -138,6 +139,7 @@ class BattlesController < ApplicationController
                 @battle.level_up = true
                 @battle.pokemon_level_up_id = @@pokemon_attack.id
                 @battle.save
+
                 if @battle.level_up
                     # puts "level up"
                     
@@ -168,11 +170,12 @@ class BattlesController < ApplicationController
                 end
 
                 if $skills.length != 0
-                    z = 3
+                    # z = 3
                     
-                    while @battle.winner.pokemon_skills.count < 4
+                    while @battle.winner.pokemon_skills.count < 4 && $skills.length != 0
                         skill = $skills.shift
 
+                        puts "ini skill id nya", skill
                         @new_skill = Skill.find(skill)
                         @pokemon_skill = PokemonSkill.new
                         @pokemon_skill.pokemon_id = @battle.winner_id
@@ -180,6 +183,15 @@ class BattlesController < ApplicationController
                         @pokemon_skill.last_pp = @new_skill.pp
                         @pokemon_skill.save
 
+                        @battle.skill_id = skill
+                        @battle.pokemon_get_new_skill_id = @@pokemon_attack.id
+                        # @battle.change_skill = true
+                        @battle.get_new_skill= true
+                        @battle.skills_slot_full = true
+                        @battle.save
+
+                        message = @@pokemon_attack.name+" Get new skill "+@new_skill.name
+                        flash[:notice] = message.titleize 
                     end 
                     
                     if $skills.length != 0
@@ -189,7 +201,14 @@ class BattlesController < ApplicationController
                         # @battle.change_skill = true
                         @battle.get_new_skill= true
                         @battle.skills_slot_full = true
-                        # @battle.save
+                        @battle.save
+                    else
+                        @battle.skill_id = nil
+                        @battle.pokemon_get_new_skill_id = nil
+                        # @battle.change_skill = true
+                        @battle.get_new_skill= false
+                        @battle.skills_slot_full = true
+                        @battle.save
 
                     end
                 end
@@ -219,6 +238,8 @@ class BattlesController < ApplicationController
             @battle.save
         end
         # End
+
+        session
 
         # Change Attacker
         @battle.current_attacker_id = @@pokemon_got_damage.id
@@ -267,11 +288,11 @@ class BattlesController < ApplicationController
                     $skills.push(new_skill[x].id)
                 end
             end
-            attack_rand = rand(5..10)
-            defence_rand = rand(5..10)
-            speed_rand = rand(5..10)
-            special_rand = rand(5..10)
-            hp_rand = rand(5..10)
+            attack_rand = rand(5..9)
+            defence_rand = rand(5..9)
+            speed_rand = rand(5..9)
+            special_rand = rand(5..9)
+            hp_rand = rand(5..9)
 
             attack_plus += attack_rand
             defence_plus += defence_rand
@@ -366,6 +387,7 @@ class BattlesController < ApplicationController
 
         @battle.save
 
+        flash[:success] = "Skill Successfully Changed" 
         redirect_to  battle_path
     end
     
