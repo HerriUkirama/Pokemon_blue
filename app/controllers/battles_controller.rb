@@ -58,6 +58,7 @@ class BattlesController < ApplicationController
             end
         end
 
+        @battle.header_message = @battle.current_attacker.name.titleize + " first attacker"
 
         if @battle.save
             @battle.pokemon_i.status ="In Battle"
@@ -166,7 +167,12 @@ class BattlesController < ApplicationController
                     @battle.winner_defence_plus = arr[1]
                     @battle.winner_special_plus = arr[2]
                     @battle.winner_speed_plus = arr[3]
+                    @battle.header_message = @@pokemon_attack.name+" Level Up"
                     @battle.save
+
+
+                    # message = @@pokemon_attack.name+" Level Up"
+                    # flash[:notice] = message.titleize 
                 end
 
                 if $skills.length != 0
@@ -175,7 +181,7 @@ class BattlesController < ApplicationController
                     while @battle.winner.pokemon_skills.count < 4 && $skills.length != 0
                         skill = $skills.shift
 
-                        puts "ini skill id nya", skill
+                        # puts "ini skill id nya", skill
                         @new_skill = Skill.find(skill)
                         @pokemon_skill = PokemonSkill.new
                         @pokemon_skill.pokemon_id = @battle.winner_id
@@ -186,12 +192,14 @@ class BattlesController < ApplicationController
                         @battle.skill_id = skill
                         @battle.pokemon_get_new_skill_id = @@pokemon_attack.id
                         # @battle.change_skill = true
-                        @battle.get_new_skill= true
-                        @battle.skills_slot_full = true
+                        # @battle.get_new_skill= true
+                        # @battle.skills_slot_full = true
+
+                        @battle.header_message = @@pokemon_attack.name.titleize+" Level Up and Get new skill "+@new_skill.name.titleize
                         @battle.save
 
-                        message = @@pokemon_attack.name+" Get new skill "+@new_skill.name
-                        flash[:notice] = message.titleize 
+                        # message = @@pokemon_attack.name+" Level Up and Get new skill "+@new_skill.name
+                        # flash[:notice] = message.titleize 
                     end 
                     
                     if $skills.length != 0
@@ -236,14 +244,21 @@ class BattlesController < ApplicationController
             end
             # puts "ini di luar"
             @battle.save
+            
+        else
+            # Change Attacker
+            @battle.attacker_name = @@pokemon_attack.name
+            @battle.defender_name = @@pokemon_got_damage.name
+            @battle.attacker_skill_name = @@pokemon_skill.skill.name
+            @battle.attacker_total_damage = damage
+            @battle.current_attacker_id = @@pokemon_got_damage.id
+            @battle.header_message = "Current attacker is "+@battle.current_attacker.name.titleize
+            @battle.save
+            
         end
         # End
 
-        session
 
-        # Change Attacker
-        @battle.current_attacker_id = @@pokemon_got_damage.id
-        @battle.save
         # End
         redirect_to battle_path
     end
@@ -325,8 +340,12 @@ class BattlesController < ApplicationController
         # puts "ganti babang"
         @battle = Battle.find(params[:id])
         @battle.change_skill = true
+        @battle.header_message = @@pokemon_attack.name.titleize+", select the skill you want to change"
         @battle.save
         # puts @battle.id
+
+
+        # flash[:notice] = message
         redirect_to battle_path
     end
     
@@ -351,7 +370,10 @@ class BattlesController < ApplicationController
             @battle.game_over = true    
         end
 
+        @battle.header_message = @@pokemon_attack.name.titleize+" skills are not exchanged"
         @battle.save
+
+        # flash[:notice] = message
         redirect_to battle_path
     end
     
@@ -385,9 +407,9 @@ class BattlesController < ApplicationController
             @battle.game_over = true    
         end
 
+        @battle.header_message = @@pokemon_attack.name+", Skill Successfully Changed" 
         @battle.save
 
-        flash[:success] = "Skill Successfully Changed" 
         redirect_to  battle_path
     end
     

@@ -7,7 +7,14 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 
+BattleDetail.destroy_all
+Battle.destroy_all
+InitiateSkill.destroy_all
 Pokedex.destroy_all
+PokemonSkill.destroy_all
+Skill.destroy_all
+Pokemon.destroy_all
+
 Pokedex.create!([{
     name: "Charmander",
     max_hp: 39,
@@ -60,7 +67,6 @@ Pokedex.create!([{
 
 p "Created #{Pokedex.count} Pokedex"
 
-Skill.destroy_all
 Skill.create!([{
     name: "Fire Punch",
     element: "Fire",
@@ -262,8 +268,6 @@ Skill.create!([{
 
 p "Created #{Skill.count} Skill"
 
-
-InitiateSkill.destroy_all
 InitiateSkill.create!([{
     pokedex_id: 1,
     skill_id: 1,
@@ -319,3 +323,195 @@ p "Created #{InitiateSkill.count} InitiateSkill"
 # Battle.destroy_all
 
 # Pokemon.destroy_all
+
+Pokemon.create!([
+{
+    pokedex_id: 1,
+    name: "Naga",
+    pokemon_hp: 39,
+    pokemon_max_hp: 39,
+    pokemon_exp: 0,
+    pokemon_max_exp: 100,
+    level: 1,
+    pokemon_attack: 52,
+    pokemon_defence: 43,
+    pokemon_speed: 65,
+    pokemon_special: 50,
+    is_delete: false,
+    status: "Free"
+},
+{
+    pokedex_id: 1,
+    name: "Naga2",
+    pokemon_hp: 39,
+    pokemon_max_hp: 39,
+    pokemon_exp: 136,
+    pokemon_max_exp: 150,
+    level: 2,
+    pokemon_attack: 52,
+    pokemon_defence: 43,
+    pokemon_speed: 65,
+    pokemon_special: 50,
+    is_delete: false,
+    status: "Free"
+},
+{
+    pokedex_id: 2,
+    name: "Racun darat",
+    pokemon_hp: 45,
+    pokemon_max_hp: 45,
+    pokemon_exp: 0,
+    pokemon_max_exp: 100,
+    level: 1,
+    pokemon_attack: 49,
+    pokemon_defence: 49,
+    pokemon_speed: 45,
+    pokemon_special: 65,
+    is_delete: false,
+    status: "Free"
+},
+{
+    pokedex_id: 2,
+    name: "Racun darat2",
+    pokemon_hp: 45,
+    pokemon_max_hp: 45,
+    pokemon_exp: 240,
+    pokemon_max_exp: 250,
+    level: 4,
+    pokemon_attack: 49,
+    pokemon_defence: 49,
+    pokemon_speed: 45,
+    pokemon_special: 65,
+    is_delete: false,
+    status: "Free"
+},
+{
+    pokedex_id: 3,
+    name: "Penyu",
+    pokemon_hp: 44,
+    pokemon_max_hp: 44,
+    pokemon_exp: 0,
+    pokemon_max_exp: 100,
+    level: 1,
+    pokemon_attack: 48,
+    pokemon_defence: 65,
+    pokemon_speed: 43,
+    pokemon_special: 50,
+    is_delete: false,
+    status: "Free"
+},
+{
+    pokedex_id: 2,
+    name: "Racun darat3",
+    pokemon_hp: 45,
+    pokemon_max_hp: 45,
+    pokemon_exp: 240,
+    pokemon_max_exp: 250,
+    level: 4,
+    pokemon_attack: 49,
+    pokemon_defence: 49,
+    pokemon_speed: 45,
+    pokemon_special: 65,
+    is_delete: false,
+    status: "Free"
+},
+])
+
+
+p "Created #{Pokemon.count} Pokemon"
+
+PokemonSkill.create!([
+{
+    pokemon_id: 1,
+    skill_id: 1,
+    last_pp: 15
+},
+{
+    pokemon_id: 1,
+    skill_id: 2,
+    last_pp: 15
+},
+{
+    pokemon_id: 2,
+    skill_id: 1,
+    last_pp: 15
+},
+{
+    pokemon_id: 2,
+    skill_id: 2,
+    last_pp: 15
+},
+{
+    pokemon_id: 3,
+    skill_id: 8,
+    last_pp: 7
+},
+{
+    pokemon_id: 3,
+    skill_id: 9,
+    last_pp: 15
+},
+{
+    pokemon_id: 3,
+    skill_id: 10,
+    last_pp: 18
+},
+{
+    pokemon_id: 3,
+    skill_id: 11,
+    last_pp: 10
+},
+{
+    pokemon_id: 4,
+    skill_id: 8,
+    last_pp: 7
+},
+{
+    pokemon_id: 4,
+    skill_id: 9,
+    last_pp: 15
+},
+{
+    pokemon_id: 4,
+    skill_id: 10,
+    last_pp: 18
+},
+{
+    pokemon_id: 4,
+    skill_id: 11,
+    last_pp: 10
+},
+{
+    pokemon_id: 5,
+    skill_id: 15,
+    last_pp: 14
+},
+{
+    pokemon_id: 5,
+    skill_id: 16,
+    last_pp: 18
+},
+{
+    pokemon_id: 6,
+    skill_id: 8,
+    last_pp: 7
+},
+{
+    pokemon_id: 6,
+    skill_id: 9,
+    last_pp: 15
+},
+{
+    pokemon_id: 6,
+    skill_id: 10,
+    last_pp: 18
+},
+{
+    pokemon_id: 6,
+    skill_id: 11,
+    last_pp: 10
+},
+])
+
+
+p "Created #{PokemonSkill.count} PokemonSkill"

@@ -18,36 +18,49 @@ class PokemonsController < ApplicationController
     
 
     def create
-        @pokemon = Pokemon.new(pokemon_params)
-        @pokedex = Pokedex.find(@pokemon.pokedex_id)
-        @initiate_skills = @pokedex.skills
-
-        @pokemon.pokemon_attack = @pokedex.attack
-        @pokemon.pokemon_defence = @pokedex.defence
-        @pokemon.pokemon_speed = @pokedex.speed
-        @pokemon.pokemon_special = @pokedex.special 
-        @pokemon.pokemon_max_exp = @pokedex.max_exp
-        @pokemon.pokemon_max_hp = @pokedex.max_hp
-        @pokemon.pokemon_hp = @pokedex.max_hp
+        # require 'pry'
         
-        if @pokemon.save
-            
-            @initiate_skills.each do |skill|
-                @pokemon_skill = PokemonSkill.new
-                @pokemon_skill.pokemon_id = @pokemon.id
-                @pokemon_skill.skill_id = skill.id
-                @pokemon_skill.last_pp = skill.pp
-
-                @pokemon_skill.save
+        # binding.pry
+        
+        @pokemon = Pokemon.new(pokemon_params)
+        if @pokemon.pokedex_id == 0 || @pokemon.name == ""
+            if @pokemon.save ==false
+                puts "masuk ke pokedex id"
+                # @pokemon = Pokemon.new
+                @pokedexes = Pokedex.all
+                render :new, status: :unprocessable_entity
             end
-            
-            flash[:success] = "Pokemon created successfully"
-            redirect_to pokemon_path(@pokemon)
         else
-
-            @pokemon = Pokemon.new
-            @pokedexes = Pokedex.all
-            render :new, status: :unprocessable_entity
+            @pokedex = Pokedex.find(@pokemon.pokedex_id)
+            @initiate_skills = @pokedex.skills
+    
+            @pokemon.pokemon_attack = @pokedex.attack
+            @pokemon.pokemon_defence = @pokedex.defence
+            @pokemon.pokemon_speed = @pokedex.speed
+            @pokemon.pokemon_special = @pokedex.special 
+            @pokemon.pokemon_max_exp = @pokedex.max_exp
+            @pokemon.pokemon_max_hp = @pokedex.max_hp
+            @pokemon.pokemon_hp = @pokedex.max_hp
+            
+            if @pokemon.save
+                
+                @initiate_skills.each do |skill|
+                    @pokemon_skill = PokemonSkill.new
+                    @pokemon_skill.pokemon_id = @pokemon.id
+                    @pokemon_skill.skill_id = skill.id
+                    @pokemon_skill.last_pp = skill.pp
+    
+                    @pokemon_skill.save
+                end
+                
+                flash[:success] = "Pokemon created successfully"
+                redirect_to pokemon_path(@pokemon)
+            else
+    
+                @pokemon = Pokemon.new
+                @pokedexes = Pokedex.all
+                render :new, status: :unprocessable_entity
+            end
         end
     end
 
@@ -58,11 +71,13 @@ class PokemonsController < ApplicationController
         
         # require 'pry'
         # binding.pry
-        if battles.length == 0
-            @pokemon.destroy
-        else
-            @pokemon.is_delete = true
-            @pokemon.save
+        if @pokemon.status != "In Battle"
+            if battles.length == 0
+                @pokemon.destroy
+            else
+                @pokemon.is_delete = true
+                @pokemon.save
+            end
         end
         
         redirect_to pokemons_path

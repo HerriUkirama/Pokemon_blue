@@ -1,7 +1,11 @@
-<div class="container mx-auto">
+<div class="container relative mx-auto">
     <h1 class="text-5xl font-bold py-12">Battles</h1>
     <% if flash[:notice] %>
         <div id="flash-notice" class="w-full mb-8 py-4 px-5 bg-green-100 text-green-600 rounded-lg font-semibold text-2xl"><%= flash[:notice] %></div>
+    <% elsif @battle.game_over == true && @battle.level_up == false %>
+        <div class="w-full mb-8 py-4 px-5 bg-green-100 text-green-600 rounded-lg font-semibold text-2xl">Congrats to <%= @battle.winner.name.titleize %> for winning the Battle</div>
+    <% else%>
+        <div class="w-full mb-8 py-4 px-5 bg-green-100 text-green-600 rounded-lg font-semibold text-2xl"><%= @battle.header_message %></div>
     <% end %>
 
     <% if flash[:success] %>
@@ -279,6 +283,12 @@
                 <h1 class="text-center text-4xl font-bold">V/S</h1>    
                 <% if @battle.status == "End" %>
                     <h1 class= "text-6xl font-extrabold text-red-600">Game Over</h1>
+                <% else %>
+                    <div class = "px-5 py-2 w-[90%] h-24 box-border mx-5 border-2 border-solid border-black rounded-xl">
+                        <% if @battle.attacker_name != nil && @battle.defender_name != nil %>
+                            <p class="text-center text-lg"><%= @battle.attacker_name%> attack <%= @battle.defender_name%>  with skill <%= @battle.attacker_skill_name%> which deals a total of  <%= @battle.attacker_total_damage%> damage</p>
+                        <% end %>
+                    </div>  
                 <% end %>
         </div>
 

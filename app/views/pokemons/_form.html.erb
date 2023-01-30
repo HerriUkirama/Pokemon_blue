@@ -8,7 +8,7 @@
             <div class="mb-6">
                 <label for="pokedex_id" class="block mb-2 text-sm font-medium text-gray-900">Type</label>
                 <select name="pokemon[pokedex_id]" id="pokemon_pokedex_id" class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                    <option value="Select Pokemon"> Select Pokemon</option>
+                    <option value="0"> Select Pokemon</option>
                     <% pokedexes.each do |pokedex| %>
                         <option value="<%= pokedex.id %>"><%= pokedex.name%></option>
                     <% end %>

@@ -43,6 +43,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
     t.boolean "game_over", default: false
     t.datetime "battle_date"
     t.string "status", default: "In Battle"
+    t.string "header_message"
+    t.string "attacker_name"
+    t.string "defender_name"
+    t.string "attacker_skill_name"
+    t.integer "attacker_total_damage"
     t.integer "winner_hp"
     t.integer "winner_level_old"
     t.integer "winner_level_plus"
@@ -111,14 +116,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_084900) do
   create_table "pokemons", force: :cascade do |t|
     t.bigint "pokedex_id"
     t.string "name"
-    t.integer "pokemon_hp"
-    t.integer "pokemon_max_hp"
-    t.integer "pokemon_attack"
-    t.integer "pokemon_defence"
-    t.integer "pokemon_speed"
-    t.integer "pokemon_special"
+    t.integer "pokemon_hp", default: 0
+    t.integer "pokemon_max_hp", default: 0
+    t.integer "pokemon_attack", default: 0
+    t.integer "pokemon_defence", default: 0
+    t.integer "pokemon_speed", default: 0
+    t.integer "pokemon_special", default: 0
     t.integer "level", default: 1
-    t.integer "pokemon_max_exp"
+    t.integer "pokemon_max_exp", default: 0
     t.integer "pokemon_exp", default: 0
     t.boolean "is_delete", default: false
     t.string "status", default: "Free"

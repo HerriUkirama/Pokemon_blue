@@ -16,6 +16,12 @@ class CreateBattles < ActiveRecord::Migration[7.0]
       
       t.datetime :battle_date
       t.string :status, default: "In Battle"
+      t.string :header_message, null: true
+
+      t.string :attacker_name
+      t.string :defender_name
+      t.string :attacker_skill_name
+      t.integer :attacker_total_damage
 
       t.integer :winner_hp, null: true
       t.integer :winner_level_old, null: true
@@ -37,6 +43,7 @@ class CreateBattles < ActiveRecord::Migration[7.0]
       t.integer :winner_special_old, null: true
       t.integer :winner_special_plus, null: true
 
+      
 
       t.timestamps
     end

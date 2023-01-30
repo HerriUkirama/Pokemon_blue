@@ -1,11 +1,11 @@
-<div class="container mx-auto">
+<div class="container relative mx-auto">
 
     <% if flash[:success] %>
         <div id="flash-success" class="absolute block right-0 top-0 bg-green-100 m-3 py-3 px-5 text-green-600 rounded-lg font-semibold text-lg"><%= flash[:success] %></div>
     <% end %>
     <h1 class="text-5xl font-bold py-12">Pokemon</h1>
     <div class="flex justify-end mb-2">
-        <%= link_to '+ Create', new_pokemon_path, class: "bg-blue-600 rounded-md box-content py-2 px-4 text-white font-semibold"%>
+        <%= link_to '+ Create', new_pokemon_path, class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "%>
     </div>
     <div class="relative overflow-x-auto shadow-md rounded-md mb-5">
         <table class="w-full border-separate text-sm text-left text-gray-800">
@@ -29,10 +29,13 @@
                             <td class = "px-6 py-4"><%= pokemon.level%></td>
                             <td class = "px-6 py-4"><%= pokemon.status%></td>
                             <td class = "px-6 py-4">
-                                <div class="flex space-x-3 items-center">
-                                    <%= render 'delete', pokemon: pokemon %>
-                                    <%= link_to pokemon do %>
+                                <div class="flex space-x-3 items-center justify-center">
+                                    <%= link_to(pokemon) do %>
                                         <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
+                                    <% if pokemon.status != "In Battle" %>
+                                        <%= render 'delete', pokemon: pokemon %>
+                                        <%= pokemon.id%>
                                     <% end %>
                                 </div>
                             </td>
@@ -45,10 +48,14 @@
                             <td class = "px-6 py-4"><%= pokemon.level%></td>
                             <td class = "px-6 py-4"><%= pokemon.status%></td>
                             <td class = "px-6 py-4">
-                                <div class="flex space-x-3 items-center">
-                                    <%= render 'delete', pokemon: pokemon %>
+                                <div class="flex space-x-3 items-center justify-center">
                                     <%= link_to(pokemon) do %>
                                         <%= heroicon "eye", variant: :outline%>
+                                    <% end %>
+                                    <% if pokemon.status != "In Battle" %>
+
+                                        <%= render 'delete', pokemon: pokemon %>
+                                        <%= pokemon.id%>
                                     <% end %>
                                 </div>
                             </td>
